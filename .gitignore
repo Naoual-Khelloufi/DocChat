@@ -1,0 +1,12 @@
+# Python environment
+venv/
+__pycache__/
+*.pyc
+
+# Temporary data files
+data/vectors/  # Exclude embeddings (can be regenerated)
+data/.cache/
+
+# Sensitive files
+.env
+*.secret
