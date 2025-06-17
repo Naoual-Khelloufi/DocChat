@@ -6,21 +6,24 @@ Handles PDF, TXT, DOCX, and CSV files with LangChain integration.
 import logging
 from pathlib import Path
 from typing import List
+from docx import Document
+import pandas as pd
 from langchain_community.document_loaders import (
     UnstructuredPDFLoader,  # Robust PDF loader
     UnstructuredFileLoader   # Universal text loader
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document as LangchainDocument
 
 # Initialize logger for error tracking
 logger = logging.getLogger(__name__)
 
 class DocumentProcessor:
-    """Core processor for document loading and text splitting."""
+    """Core processor for document loading and text splitting"""
     
     def __init__(self, chunk_size: int = 7500, chunk_overlap: int = 100):
         """
-        Initialize text splitter with configuration.
+        Initialize text splitter with configuration
         
         Args:
             chunk_size: Character length for text chunks
@@ -35,7 +38,7 @@ class DocumentProcessor:
     
     def load_document(self, file_path: Path) -> List:
         """
-        Main document loading router.
+        Main document loading router
         
         Args:
             file_path: Path to target file
@@ -72,7 +75,7 @@ class DocumentProcessor:
     
     def _load_pdf(self, file_path: Path) -> List:
         """
-        PDF loader using UnstructuredPDFLoader.
+        PDF loader using UnstructuredPDFLoader
         
         Advantages:
         - Preserves complex layouts
@@ -84,7 +87,7 @@ class DocumentProcessor:
     
     def _load_txt(self, file_path: Path) -> List:
         """
-        Plain text loader using UnstructuredFileLoader.
+        Plain text loader using UnstructuredFileLoader
         
         Features:
         - Automatic encoding detection
