@@ -1,0 +1,1 @@
+# Text extraction (PDF, TXT, etc.)
