@@ -3,6 +3,7 @@ from core.document import DocumentProcessor
 from core.embeddings import VectorStore
 import tempfile
 import os
+from pathlib import Path 
 
 def process_files(uploaded_files):
     processor = DocumentProcessor()
@@ -11,11 +12,12 @@ def process_files(uploaded_files):
     
     all_docs = []
     for uploaded_file in uploaded_files:
-        file_path = os.path.join(temp_dir, uploaded_file.name)
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        
-        docs = processor.load_document(file_path)
+        for uploaded_file in uploaded_files:
+            file_path = Path(temp_dir) / uploaded_file.name  
+            with open(file_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+
+        docs = processor.load_document(file_path)  
         chunks = processor.split_documents(docs)
         all_docs.extend(chunks)
     
