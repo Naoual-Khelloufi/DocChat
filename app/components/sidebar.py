@@ -43,7 +43,7 @@ def show_sidebar():
         
         st.selectbox(
             "Modèle Ollama",
-            ["llama2:7b", "mistral", "gemma"],
+            ["llama3.2:latest","llama2:7b", "mistral", "gemma"],
             key="selected_model"
         )
         

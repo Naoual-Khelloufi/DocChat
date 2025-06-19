@@ -19,7 +19,7 @@ def chat_interface():
         if 'vector_db' in st.session_state and st.session_state.vector_db:
             with st.spinner("Recherche en cours..."):
                 try:
-                    llm = LLMManager(model_name=st.session_state.get("selected_model", "llama2:7b"))
+                    llm = LLMManager(model_name=st.session_state.get("selected_model", "llama3.2:latest"))
                     context = st.session_state.vector_db.similarity_search(prompt, k=3)
                     response = llm.generate_answer(context, prompt)
                     

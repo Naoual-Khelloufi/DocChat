@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class LLMManager:
     """Handles LLM interactions and prompt engineering for the RAG system."""
     
-    def __init__(self, model_name: str = "llama2:7b"):
+    def __init__(self, model_name: str = "llama3.2:latest"):
         """
         Initialize the LLM with local Ollama.
         
