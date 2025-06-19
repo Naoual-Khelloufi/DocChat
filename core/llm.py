@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class LLMManager:
     """Handles LLM interactions and prompt engineering for the RAG system."""
     
-    def __init__(self, model_name: str = "llama2"):
+    def __init__(self, model_name: str = "llama2:7b"):
         """
         Initialize the LLM with local Ollama.
         
@@ -22,7 +22,8 @@ class LLMManager:
                 model=model_name,
                 temperature=0.3,  # Balances creativity/factuality
                 base_url="http://localhost:11434",  # Matches embeddings.py
-                num_ctx=4096  # Consistent context window
+                num_ctx=2048, # Consistent context window
+                num_threads=2
             )
             logger.info(f"Initialized LLM with model: {model_name}")
         except Exception as e:
