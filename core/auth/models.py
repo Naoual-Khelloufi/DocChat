@@ -6,12 +6,6 @@ from datetime import datetime
 Base = declarative_base()
 
 class User(Base):
-
-    def __init__(self, username, password, email=None):
-        self.username = username
-        self.email = email
-        self.set_password(password)
-
     __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True, index=True)

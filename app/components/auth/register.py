@@ -25,26 +25,26 @@ def show_register():
                     st.error("Les mots de passe ne correspondent pas")
                     return False
                 
-                conn = None  # Initialisation explicite
+                session = get_db()
                 try:
-                    new_user = User(username=username, password=password, email=email)
-                    conn = get_db()
-                    cursor = conn.cursor()
-                    cursor.execute(
-                        "INSERT INTO users (username, password_hash, email) VALUES (?, ?, ?)",
-                        (new_user.username, new_user.password_hash, new_user.email)
-                    )
-                    conn.commit()
+                    # Créer l'utilisateur avec SQLAlchemy ORM
+                    new_user = User(username=username, email=email)
+                    new_user.set_password(password)  # Hash du mot de passe
+
+                    session.add(new_user)
+                    session.commit()
+                    
                     st.success("Compte créé ! Connectez-vous maintenant")
                     return True
+
                 except sqlite3.IntegrityError:
+                    session.rollback()
                     st.error("Ce nom d'utilisateur existe déjà")
                     return False
+
                 except Exception as e:
+                    session.rollback()
                     st.error(f"Erreur inattendue : {str(e)}")
                     return False
-                finally:
-                    if conn:  # Vérifie que conn existe avant de fermer
-                        conn.close()
         st.markdown('</div>', unsafe_allow_html=True)
     return False
