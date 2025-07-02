@@ -1,10 +1,9 @@
 import streamlit as st
-import sqlite3
-from core.auth.models import User
 from core.auth.database import get_db
+from core.auth.models import User
 
 def show_register():
-    """Affiche le formulaire d'inscription"""
+    """Affiche le formulaire d'inscription sécurisé"""
     st.markdown("""
     <style>
         .register-box { max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
@@ -16,18 +15,19 @@ def show_register():
         st.header("Inscription")
 
         with st.form("register_form"):
-            username = st.text_input("Nom d'utilisateur", help="3 caractères minimum")
+            username = st.text_input("Nom d'utilisateur*", help="3 caractères minimum")
             email = st.text_input("Email (optionnel)")
-            password = st.text_input("Mot de passe", type="password")
-            confirm = st.text_input("Confirmer le mot de passe", type="password")
+            password = st.text_input("Mot de passe*", type="password")
+            confirm = st.text_input("Confirmer le mot de passe*", type="password")
             
             if st.form_submit_button("Créer un compte"):
                 if password != confirm:
                     st.error("Les mots de passe ne correspondent pas")
                     return False
                 
+                conn = None  # Initialisation explicite
                 try:
-                    new_user = User(username, password, email)
+                    new_user = User(username=username, password=password, email=email)
                     conn = get_db()
                     cursor = conn.cursor()
                     cursor.execute(
@@ -40,6 +40,11 @@ def show_register():
                 except sqlite3.IntegrityError:
                     st.error("Ce nom d'utilisateur existe déjà")
                     return False
+                except Exception as e:
+                    st.error(f"Erreur inattendue : {str(e)}")
+                    return False
                 finally:
-                    conn.close()
+                    if conn:  # Vérifie que conn existe avant de fermer
+                        conn.close()
         st.markdown('</div>', unsafe_allow_html=True)
+    return False
