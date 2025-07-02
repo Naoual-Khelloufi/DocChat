@@ -12,6 +12,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 #Base = declarative_base()
 
-# Ajoutez cette fonction manquante
+
 def get_db():
     return SessionLocal()
