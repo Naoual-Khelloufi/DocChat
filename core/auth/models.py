@@ -1,9 +1,27 @@
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
+#from sqlalchemy.ext.declarative import declarative_base
+from torch import Use
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
+from sqlalchemy import ForeignKey, Text
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import declarative_base
+
+
 Base = declarative_base()
+
+class ChatHistory(Base):
+    __tablename__ = 'chat_history'
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    question = Column(Text, nullable=False)
+    answer = Column(Text, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="chat_history")
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -19,3 +37,5 @@ class User(Base):
     
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    Use.chat_history = relationship("ChatHistory", back_populates="user")

@@ -4,6 +4,8 @@ from core.embeddings import VectorStore
 import tempfile
 import os
 from pathlib import Path 
+from core.auth import crud, database
+
 
 def process_files(uploaded_files):
     processor = DocumentProcessor()
@@ -51,4 +53,18 @@ def show_sidebar():
             st.session_state.chat_history = []
             st.rerun()
     
+        # 📜 Affichage de l'historique utilisateur (s'il est connecté)
+        if "user_id" in st.session_state:
+            st.markdown("---")
+            st.markdown("### 🕘 Historique de Chat")
+            db = database.SessionLocal()
+            history = crud.get_user_history(db, st.session_state["user_id"], limit=10)
+
+        for h in history:
+            st.markdown(f"**🕐 {h.timestamp.strftime('%d/%m %H:%M')}**")
+            st.markdown(f"**🗨️ Q:** {h.question}")
+            st.markdown(f"**🤖 R:** {h.answer[:100]}...")  # tronque la réponse
+            st.markdown("---")
+
+
     return temp_dir

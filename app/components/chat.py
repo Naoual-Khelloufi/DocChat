@@ -1,5 +1,8 @@
 import streamlit as st
 from core.llm import LLMManager
+from core.auth import crud, database
+from sqlalchemy.orm import Session
+
 
 def chat_interface():
     st.subheader("💬 Chat avec vos documents")
@@ -27,6 +30,16 @@ def chat_interface():
                         st.markdown(response)
                     
                     st.session_state.chat_history.append({"role": "assistant", "content": response})
+
+                    # Enregistrer la conversation dans la base de données si l'utilisateur est connecté
+                    if "user_id" in st.session_state:
+                        db = database.SessionLocal()
+                        crud.save_chat_history(
+                        db,
+                        user_id=st.session_state["user_id"],
+                        question=prompt,
+                        answer=response
+                     )
                 except Exception as e:
                     st.error(f"Erreur : {str(e)}")
         else:
