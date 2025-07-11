@@ -53,13 +53,11 @@ def show_sidebar():
             st.session_state.chat_history = []
             st.rerun()
 
-        #st.write("Session state:", st.session_state)
 
         if "user_id" not in st.session_state and "user" in st.session_state:
             st.session_state["user_id"] = st.session_state["user"]["id"]
-            #st.markdown("### 🗂 Historique de Chat")
 
-        if st.button("📜 Afficher mon historique"):
+        if st.button(" Afficher mon historique"):
             db = database.SessionLocal()
             history = crud.get_user_history(db, st.session_state["user_id"], limit=10)
 
