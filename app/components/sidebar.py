@@ -52,19 +52,25 @@ def show_sidebar():
         if st.button("Effacer la conversation"):
             st.session_state.chat_history = []
             st.rerun()
-    
-        # 📜 Affichage de l'historique utilisateur (s'il est connecté)
-        if "user_id" in st.session_state:
-            st.markdown("---")
-            st.markdown("### 🕘 Historique de Chat")
+
+        #st.write("Session state:", st.session_state)
+
+        if "user_id" not in st.session_state and "user" in st.session_state:
+            st.session_state["user_id"] = st.session_state["user"]["id"]
+            #st.markdown("### 🗂 Historique de Chat")
+
+        if st.button("📜 Afficher mon historique"):
             db = database.SessionLocal()
             history = crud.get_user_history(db, st.session_state["user_id"], limit=10)
 
-        for h in history:
-            st.markdown(f"**🕐 {h.timestamp.strftime('%d/%m %H:%M')}**")
-            st.markdown(f"**🗨️ Q:** {h.question}")
-            st.markdown(f"**🤖 R:** {h.answer[:100]}...")  # tronque la réponse
-            st.markdown("---")
+            if not history:
+                st.warning("Aucun historique trouvé.")
+            else:
+                for h in history:
+                    st.markdown(f"**🕓 {h.timestamp.strftime('%d/%m %H:%M')}**")
+                    st.markdown(f"**❓ Q :** {h.question}")
+                    st.markdown(f"**📩 R :** {h.answer[:100]}...")
+                    st.markdown('---')
 
 
     return temp_dir
