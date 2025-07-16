@@ -2,7 +2,6 @@ import streamlit as st
 from core.document import DocumentProcessor
 from core.embeddings import VectorStore
 import tempfile
-import os
 from pathlib import Path 
 from core.auth import crud, database
 

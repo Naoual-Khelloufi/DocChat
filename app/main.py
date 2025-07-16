@@ -1,11 +1,7 @@
 import streamlit as st
-import tempfile
-import os
 from components.sidebar import show_sidebar
 from components.chat import chat_interface
 from components.pdf_viewer import display_pdf_viewer
-from core.document import DocumentProcessor
-from core.embeddings import VectorStore
 from app.components.auth.choice import show_auth_choice
 from app.components.auth.login import show_login
 from app.components.auth.register import show_register

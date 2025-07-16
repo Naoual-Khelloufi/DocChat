@@ -2,7 +2,6 @@
 """Vector embeddings and database functionality for local Ollama setup."""
 import logging
 from typing import List
-from pathlib import Path
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document as LangchainDocument  # Compatibilité avec document.py

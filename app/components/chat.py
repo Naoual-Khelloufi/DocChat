@@ -1,7 +1,6 @@
 import streamlit as st
 from core.llm import LLMManager
 from core.auth import crud, database
-from sqlalchemy.orm import Session
 
 
 def chat_interface():

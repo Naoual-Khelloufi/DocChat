@@ -2,7 +2,7 @@
 import logging
 from typing import List
 from langchain_ollama.chat_models import ChatOllama
-from langchain.prompts import ChatPromptTemplate, PromptTemplate
+from langchain.prompts import ChatPromptTemplate
 from langchain_core.documents import Document as LangchainDocument
 
 logger = logging.getLogger(__name__)

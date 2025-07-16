@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime
 #from sqlalchemy.ext.declarative import declarative_base
-from torch import Use
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 

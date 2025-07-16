@@ -7,6 +7,8 @@ repos:
     hooks:
       - id: pytest
         name: pytest
-        entry: pytest          # commande to execute
+        entry: sh -c 'PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 pytest'  # commande to execute
+                                                                #deactivate the auto loading of pytest plug-in
         language: system       # use python interpreter of the venv 
+        #deactivate the auto loading of pytest plug-in
         pass_filenames: false  # do not send modified files in parameters
