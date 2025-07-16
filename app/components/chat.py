@@ -31,8 +31,9 @@ def chat_interface():
                     
                     st.session_state.chat_history.append({"role": "assistant", "content": response})
 
+                    ###############
                     # Enregistrer la conversation dans la base de données si l'utilisateur est connecté
-                    if "user_id" in st.session_state:
+                    if ("user_id" in st.session_state and st.session_state["user_id"] is not None):
                         db = database.SessionLocal()
                         crud.save_chat_history(
                         db,

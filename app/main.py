@@ -73,7 +73,7 @@ def main():
             st.session_state.current_screen = "register"
             st.rerun()
         elif st.session_state.get("auth_action") == "guest":
-            st.session_state.user = {"username": "invité"}
+            st.session_state.user = {"id": None,"username": "invité", "role": "guest"}
             st.session_state.current_screen = "main_app"
             st.rerun()
 

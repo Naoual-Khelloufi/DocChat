@@ -53,22 +53,42 @@ def show_sidebar():
             st.session_state.chat_history = []
             st.rerun()
 
+        # Récupère l'objet user ou {} par défaut
+        user = st.session_state.get("user", {})
 
-        if "user_id" not in st.session_state and "user" in st.session_state:
-            st.session_state["user_id"] = st.session_state["user"]["id"]
+        # Normalise : si la clé id n'existe pas, force-la à None
+        if "id" not in user:
+            user["id"] = None
+            st.session_state["user"] = user  # on ré-injecte la version propre
 
-        if st.button(" Afficher mon historique"):
+        # Crée user_id dans la session si manquant
+        if "user_id" not in st.session_state:
+            st.session_state["user_id"] = user["id"]
+        #if "user_id" not in st.session_state and "user" in st.session_state:
+        #    st.session_state["user_id"] = st.session_state["user"]["id"]
+
+        #user = st.session_state.get("user", {})
+        #if "user_id" not in st.session_state:
+        #    st.session_state["user_id"] = user.get("id")     #guest
+
+
+        user_id = st.session_state.get("user_id")      # None pour guest
+
+        # On rend le bouton seulement si user_id existe
+        if user_id is not None and st.button("Afficher mon historique"):
+        
             db = database.SessionLocal()
-            history = crud.get_user_history(db, st.session_state["user_id"], limit=10)
+            history = crud.get_user_history(db, user_id, limit=10)
 
             if not history:
                 st.warning("Aucun historique trouvé.")
             else:
                 for h in history:
-                    st.markdown(f"**🕓 {h.timestamp.strftime('%d/%m %H:%M')}**")
+                    st.markdown(f"**🕑 {h.timestamp.strftime('%d/%m %H:%M')}**")
                     st.markdown(f"**❓ Q :** {h.question}")
-                    st.markdown(f"**📩 R :** {h.answer[:100]}...")
-                    st.markdown('---')
+                    st.markdown(f"**💬 R :** {h.answer[:100]}...")
+                    st.markdown('-----')
+
 
 
     return temp_dir
