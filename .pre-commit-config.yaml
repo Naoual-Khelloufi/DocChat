@@ -1,0 +1,12 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.1
+    hooks:
+      - id: ruff        # lint + format check
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest          # commande to execute
+        language: system       # use python interpreter of the venv 
+        pass_filenames: false  # do not send modified files in parameters
