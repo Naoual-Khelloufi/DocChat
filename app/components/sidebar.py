@@ -29,7 +29,7 @@ def process_files(uploaded_files):
 
 def show_sidebar():
     with st.sidebar:
-        st.header("⚙️ Configuration")
+        #st.header("⚙️ Configuration")
         
         uploaded_files = st.file_uploader(
             "Téléversez vos documents",
