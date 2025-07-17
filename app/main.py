@@ -5,6 +5,7 @@ from components.pdf_viewer import display_pdf_viewer
 from app.components.auth.choice import show_auth_choice
 from app.components.auth.login import show_login
 from app.components.auth.register import show_register
+from app.components.admin_dashboard import render as admin_dashboard  # 🆕
 
 def init_session_state():
     # États existants
@@ -83,6 +84,19 @@ def main():
         st.title("📚 RAG Local avec Ollama")
         if show_register():  # Retourne True si inscription réussie
             st.session_state.current_screen = "login"  # Redirige vers le login
+            st.rerun()
+
+    ############
+    elif st.session_state.current_screen == "admin_dashboard":
+    # accès réservé
+        if (
+            st.session_state.user
+            and st.session_state.user.get("role") == "admin"
+        ):
+            admin_dashboard()                       # appelle render() de la page
+        else:
+            st.error("Accès réservé à l’administrateur.")
+            st.session_state.current_screen = "main_app"
             st.rerun()
 
     elif st.session_state.current_screen == "main_app":

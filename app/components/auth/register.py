@@ -20,6 +20,12 @@ def show_register():
             password = st.text_input("Mot de passe*", type="password")
             confirm = st.text_input("Confirmer le mot de passe*", type="password")
             
+             #Option “Administrateur” visible seulement si l’admin actuellement connecté crée un compte
+            make_admin = False
+            if st.session_state.get("user", {}).get("role") == "admin":
+                make_admin = st.checkbox("Créer comme Administrateur")
+
+            
             if st.form_submit_button("Créer un compte"):
                 if password != confirm:
                     st.error("Les mots de passe ne correspondent pas")
@@ -28,7 +34,7 @@ def show_register():
                 session = get_db()
                 try:
                     # Créer l'utilisateur avec SQLAlchemy ORM
-                    new_user = User(username=username, email=email)
+                    new_user = User(username=username, email=email, is_admin = make_admin)
                     new_user.set_password(password)  # Hash du mot de passe
 
                     session.add(new_user)

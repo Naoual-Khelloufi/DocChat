@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, Integer, String, DateTime
 #from sqlalchemy.ext.declarative import declarative_base
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -30,6 +30,10 @@ class User(Base):
     password_hash = Column(String)
     email = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+##############
+    #Add admin flag
+    is_admin = Column(Boolean, default=False)
     
     chat_history = relationship("ChatHistory", back_populates="user")
 
@@ -39,4 +43,6 @@ class User(Base):
     
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
-    
+
+########
+__all__ = ["Base", "User"]

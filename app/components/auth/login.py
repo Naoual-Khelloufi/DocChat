@@ -15,9 +15,11 @@ def show_login():
                 if user and user.verify_password(password):
                     st.session_state.user = {
                         "id": user.id,
-                        "username": user.username
+                        "username": user.username,
+                        #######
+                        "role": "admin" if user.is_admin else "user",
                     }
-                    st.success("Connexion réussie !")
+                    st.success(f"Bienvenue {user.username}!")
                     return True
                 else:
                     st.error("Identifiants incorrects")

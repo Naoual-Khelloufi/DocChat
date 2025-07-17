@@ -73,6 +73,15 @@ def show_sidebar():
 
         user_id = st.session_state.get("user_id")      # None pour guest
 
+        # ───────── Section Admin (visible seulement pour role=admin) ─────────
+        if st.session_state.user["role"] == "admin":
+            st.markdown("---")
+        if st.button("🔧 Admin Dashboard"):
+            st.switch_page("admin_dashboard")   # ou st.session_state.current_screen = "admin_dashboard"
+
+
+
+
         # On rend le bouton seulement si user_id existe
         if user_id is not None and st.button("Afficher mon historique"):
         
