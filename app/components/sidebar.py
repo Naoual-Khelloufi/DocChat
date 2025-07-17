@@ -76,10 +76,9 @@ def show_sidebar():
         # ───────── Section Admin (visible seulement pour role=admin) ─────────
         if st.session_state.user["role"] == "admin":
             st.markdown("---")
-        if st.button("🔧 Admin Dashboard"):
-            st.switch_page("admin_dashboard")   # ou st.session_state.current_screen = "admin_dashboard"
-
-
+            if st.button("🔧 Admin Dashboard"):
+                st.session_state.current_screen = "admin_dashboard"
+    
 
 
         # On rend le bouton seulement si user_id existe
