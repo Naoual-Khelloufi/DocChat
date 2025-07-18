@@ -28,7 +28,11 @@ def process_files(uploaded_files):
 
 def show_sidebar():
     with st.sidebar:
-        #st.header("⚙️ Configuration")
+        # Affichage de l'icône profil pour tout utilisateur connecté
+        if st.session_state.get("user"):
+            if st.button("👤 Profil", key="btn_profile"):
+                st.session_state.current_screen = "profile"   # nouvelle page
+                st.experimental_rerun()
         
         uploaded_files = st.file_uploader(
             "Téléversez vos documents",
