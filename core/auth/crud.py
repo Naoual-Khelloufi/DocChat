@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from .models import User
 from .models import ChatHistory
 
+
 def create_user(db: Session, username: str, password: str, email: str = None):
     db_user = User(username=username, email=email, is_admin = False)
     db_user.set_password(password)
@@ -44,3 +45,17 @@ def get_user_history(db: Session, user_id: int, limit: int = 10):
              .filter(ChatHistory.user_id == user_id)\
              .order_by(ChatHistory.timestamp.desc())\
              .limit(limit).all()
+
+def update_user(db, user_id: int, username: str | None = None,
+                email: str | None = None, password: str | None = None):
+    user = db.get(User, user_id)
+    if not user:
+        raise ValueError("Utilisateur introuvable")
+    if username:
+        user.username = username
+    if email is not None:          # peut être chaîne vide → None
+        user.email = email
+    if password:
+        user.set_password(password)
+    db.commit()
+

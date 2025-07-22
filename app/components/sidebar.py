@@ -32,7 +32,6 @@ def show_sidebar():
         if st.session_state.get("user"):
             if st.button("👤 Profil", key="btn_profile"):
                 st.session_state.current_screen = "profile"   # nouvelle page
-                st.experimental_rerun()
         
         uploaded_files = st.file_uploader(
             "Téléversez vos documents",

@@ -6,6 +6,7 @@ from app.components.auth.choice import show_auth_choice
 from app.components.auth.login import show_login
 from app.components.auth.register import show_register
 from app.components.admin_dashboard import render as admin_dashboard  # 🆕
+from app.components.profile_page import render as profile_page   # adapte le chemin
 
 def init_session_state():
     # États existants
@@ -87,6 +88,13 @@ def main():
             st.rerun()
 
     ############
+    elif st.session_state.current_screen == "profile":
+        if st.session_state.user:
+            profile_page()             # affiche la page profil
+        else:
+            st.warning("Vous devez être connecté.")
+            st.session_state.current_screen = "auth_choice"
+    #############
     elif st.session_state.current_screen == "admin_dashboard":
     # accès réservé
         if (
