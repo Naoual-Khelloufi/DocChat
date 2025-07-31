@@ -1,12 +1,13 @@
 import streamlit as st
 from components.sidebar import show_sidebar
 from components.chat import chat_interface
-from components.pdf_viewer import display_pdf_viewer
+from components.pdf_viewer import display_pdf_viewer, display_pdf_viewer_by_id
 from app.components.auth.choice import show_auth_choice
 from app.components.auth.login import show_login
 from app.components.auth.register import show_register
 from app.components.admin_dashboard import render as admin_dashboard  # 🆕
 from app.components.profile_page import render as profile_page   # adapte le chemin
+from app.components.history_view import render as history_view
 
 def init_session_state():
     # États existants
@@ -34,22 +35,52 @@ def landing_page():
         st.session_state.current_screen = "auth_choice"
         st.rerun()
 
-def main_interface():
-    """Votre interface principale existante"""
-    st.title("📚 RAG Local avec Ollama")
+
+
+#def main_interface():
+#    """Votre interface principale existante"""
+#    st.title("📚 RAG Local avec Ollama")
     
     # Sidebar pour upload et configuration
-    temp_dir = show_sidebar()
+#    temp_dir = show_sidebar()
     
     # Colonnes principales
+#    col1, col2 = st.columns([1, 2])
+    
+#    with col1:
+#        if st.session_state.uploaded_files:
+#            display_pdf_viewer(temp_dir)
+    
+#    with col2:
+#        chat_interface()
+
+
+def main_interface():
+    st.title("📚 RAG Local avec Ollama")
+    temp_dir = show_sidebar()
+
+    # mode normal ou historique
+    mode = st.session_state.get("chat_mode", "regular")
+
+    if mode == "history":
+        history_view()
+        return
+
+    # --- vue régulière ---
+    doc_id = st.session_state.get("current_doc_id")
     col1, col2 = st.columns([1, 2])
-    
+
     with col1:
-        if st.session_state.uploaded_files:
+        if doc_id:
+            display_pdf_viewer_by_id(doc_id)
+        elif st.session_state.uploaded_files:
             display_pdf_viewer(temp_dir)
-    
+
     with col2:
         chat_interface()
+
+
+
 
 def main():
     init_session_state()

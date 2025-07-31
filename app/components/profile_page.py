@@ -34,10 +34,6 @@ def render():
     db = database.SessionLocal()
     history = crud.get_user_history(db, user["id"])   # tout
 
-    if not history:
-        st.info("Aucun message enregistré.")
-        return
-
     # Regroupement par date
     grouped = defaultdict(list)
     for h in history:
@@ -53,7 +49,33 @@ def render():
             st.markdown(f"**💬 R :** {h.answer}")
             st.markdown("-----")
 
+    if st.button(" Supprimer mon compte", type="primary"):
+        st.session_state.show_confirm_delete = True
+
+    if st.session_state.get("show_confirm_delete"):
+        st.warning(
+            "Cette action est **irréversible** ! "
+            "Vos documents et votre historique seront supprimés."
+        )
+        col_yes, col_no = st.columns(2)
+        if col_yes.button(" Oui, supprimer définitivement"):
+            db  = database.SessionLocal()
+            uid = st.session_state["user_id"]
+            crud.delete_user_and_data(db, uid)
+
+            # logout forcé
+            for k in ("user", "user_id", "auth_action"):
+                st.session_state.pop(k, None)
+            st.session_state.current_screen = "landing"
+            st.success("Compte supprimé.")
+        if col_no.button(" Annuler"):
+            st.session_state.show_confirm_delete = False
+
     # Bouton retour
     if st.button("⬅️ Retour"):
         st.session_state.current_screen = "main_app"
+    
+    if not history:
+        st.info("Aucun message enregistré.")
+        return
         
