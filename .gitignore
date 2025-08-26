@@ -10,3 +10,4 @@ data/.cache/
 # Sensitive files
 .env
 *.secret
+.streamlit/secrets.toml
