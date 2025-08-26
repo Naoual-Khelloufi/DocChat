@@ -6,6 +6,9 @@ __pycache__/
 # Temporary data files
 data/vectors/  # Exclude embeddings (can be regenerated)
 data/.cache/
+#data base
+data/users.db
+data/users.backup.db
 
 # Sensitive files
 .env
