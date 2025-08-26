@@ -2,7 +2,6 @@ from sqlalchemy import Boolean, Column, Integer, String, DateTime
 #from sqlalchemy.ext.declarative import declarative_base
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-
 from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
@@ -54,4 +53,16 @@ class User(Base):
         return check_password_hash(self.password_hash, password)
 
 ########
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+
+    id         = Column(Integer, primary_key=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), index=True, nullable=False)
+    token_hash = Column(String(64), unique=True, index=True, nullable=False)  # sha256 hex
+    expires_at = Column(DateTime, nullable=False)
+    used_at    = Column(DateTime, nullable=True)
+
+    user = relationship("User", backref="reset_tokens")
+
+
 __all__ = ["Base", "User"]
