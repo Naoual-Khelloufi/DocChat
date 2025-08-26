@@ -121,7 +121,19 @@ def main_interface():
 def main():
     init_session_state()
     st.set_page_config(page_title="Ollama RAG", layout="wide")
+    ########
+    # Lire les paramètres d'URL pour router automatiquement depuis l'e-mail
+    params = st.experimental_get_query_params()
+    screen_param = (params.get("screen") or [None])[0]
+    token_param  = (params.get("token")  or [None])[0]
 
+    # Si un token est présent, on force la page de confirmation
+    if token_param:
+        st.session_state.current_screen = "reset_password_confirm"
+    # Sinon, on honore éventuellement 'screen' (facultatif)
+    elif screen_param in {"login", "register", "reset_password", "reset_password_confirm"}:
+        st.session_state.current_screen = screen_param
+    #########
     # Router basé sur current_screen
     if st.session_state.current_screen == "landing":
         landing_page()
