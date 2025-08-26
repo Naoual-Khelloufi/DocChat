@@ -1,0 +1,34 @@
+/* === STYLE GÉNÉRAL === */
+.stApp {
+    background-color: #f5f5f5;
+}
+
+/* === PAGE D'ACCUEIL (landing) === */
+.landing-header {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Cartes de service */
+.service-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    height: 100%;
+}
+
+/* Conteneur pour les services */
+.service-container {
+    margin-top: 2rem;
+}
+
+
+
+
+

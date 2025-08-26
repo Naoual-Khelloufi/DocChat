@@ -5,6 +5,7 @@ from components.pdf_viewer import display_pdf_viewer, display_pdf_viewer_by_id
 from app.components.auth.choice import show_auth_choice
 from app.components.auth.login import show_login
 from app.components.auth.register import show_register
+from app.components.auth.reset_password import show_reset_password
 from app.components.admin_dashboard import render as admin_dashboard  # 🆕
 from app.components.profile_page import render as profile_page   # adapte le chemin
 from app.components.history_view import render as history_view
@@ -25,38 +26,72 @@ def init_session_state():
         st.session_state.user = None
 
 def landing_page():
-    """Écran d'accueil avec bouton Commencer"""
-    st.title("📚 RAG Local avec Ollama")
-    st.markdown("""
-    Système intelligent de chat avec vos documents utilisant Ollama et LangChain.
-    """)
+    """Écran d'accueil amélioré"""
+    # Injecter le CSS
+    with open("assets/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
-    if st.button("Commencer", key="start_btn"):
+    # Header avec gradient
+    st.markdown("""
+    <div class='landing-header'>
+        <h1 style='text-align: center; color: white;'>Chat RAG</h1>
+        <p style='text-align: center;'>Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Boutons d'authentification
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+     if st.button("Connexion", key="login_btn", type="primary"):
         st.session_state.current_screen = "auth_choice"
+        st.session_state.auth_action = "login"
         st.rerun()
 
+    with col2:
+     if st.button("Inscription", key="register_btn", type="primary"):
+        st.session_state.current_screen = "auth_choice"
+        st.session_state.auth_action = "register"
+        st.rerun()
 
+    with col3:
+     if st.button("Continuer sans compte", key="guest_btn", type="primary"):
+        st.session_state.user = {"id": None, "username": "invité", "role": "guest"}
+        st.session_state.current_screen = "main_app"
+        st.rerun()
 
-#def main_interface():
-#    """Votre interface principale existante"""
-#    st.title("📚 RAG Local avec Ollama")
     
-    # Sidebar pour upload et configuration
-#    temp_dir = show_sidebar()
+    # Section Services
+    st.subheader("Nos Services")
     
-    # Colonnes principales
-#    col1, col2 = st.columns([1, 2])
+    service1, service2, service3 = st.columns(3)
     
-#    with col1:
-#        if st.session_state.uploaded_files:
-#            display_pdf_viewer(temp_dir)
+    with service1:
+        st.markdown("""
+        <div class='service-card'>
+            <h4>Analyse de documents</h4>
+            <p>Extraction intelligente d'informations</p>
+        </div>
+        """, unsafe_allow_html=True)
     
-#    with col2:
-#        chat_interface()
-
+    with service2:
+        st.markdown("""
+        <div class='service-card'>
+            <h4>Recherche contextuelle</h4>
+            <p>Réponses précises basées sur vos PDF</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with service3:
+        st.markdown("""
+        <div class='service-card'>
+            <h4>Historique des conversations</h4>
+            <p>Retrouvez toutes vos interactions</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 def main_interface():
-    st.title("📚 RAG Local avec Ollama")
+    st.title("RagChat")
     temp_dir = show_sidebar()
 
     # mode normal ou historique
@@ -91,7 +126,7 @@ def main():
         landing_page()
 
     elif st.session_state.current_screen == "auth_choice":
-        st.title("📚 RAG Local avec Ollama")
+        st.title("RagChat")
         show_auth_choice()
         
         # Gestion des actions après choix
@@ -107,16 +142,20 @@ def main():
             st.rerun()
 
     elif st.session_state.current_screen == "login":
-        st.title("📚 RAG Local avec Ollama")
+        st.title("RagChat")
         if show_login():  # Retourne True si connexion réussie
             st.session_state.current_screen = "main_app"
             st.rerun()
 
     elif st.session_state.current_screen == "register":
-        st.title("📚 RAG Local avec Ollama")
+        st.title("RagChat")
         if show_register():  # Retourne True si inscription réussie
             st.session_state.current_screen = "login"  # Redirige vers le login
             st.rerun()
+
+    elif st.session_state.current_screen == "reset_password":
+        st.title("RagChat")
+        show_reset_password()
 
     ############
     elif st.session_state.current_screen == "profile":
