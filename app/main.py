@@ -9,6 +9,7 @@ from app.components.auth.reset_password import show_reset_password
 from app.components.admin_dashboard import render as admin_dashboard  # 🆕
 from app.components.profile_page import render as profile_page   # adapte le chemin
 from app.components.history_view import render as history_view
+from app.components.auth.reset_password_confirm import show_reset_password_confirm
 
 def init_session_state():
     # États existants
@@ -156,6 +157,10 @@ def main():
     elif st.session_state.current_screen == "reset_password":
         st.title("RagChat")
         show_reset_password()
+    
+    elif st.session_state.current_screen == "reset_password_confirm":
+        st.title("RagChat")
+        show_reset_password_confirm()
 
     ############
     elif st.session_state.current_screen == "profile":
