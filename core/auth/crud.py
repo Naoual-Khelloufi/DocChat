@@ -4,15 +4,39 @@ from .models import ChatHistory
 from . import models
 from .security import hash_password
 from .models import Document
+from sqlalchemy.exc import IntegrityError
 
+#normalize email
+def _norm_email(email: str) -> str:
+    if not email or not email.strip():
+        raise ValueError("Email is required")
+    return email.strip().lower()
 
 def create_user(db: Session, username: str, password: str, email: str = None):
-    db_user = User(username=username, email=email, is_admin = False)
-    db_user.set_password(password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+    email_norm = _norm_email(email)
+    try:
+        db_user = User(username=username, email=email_norm, is_admin = False)
+        db_user.set_password(password)
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+    except IntegrityError:
+        db.rollback()
+        raise ValueError("Email already in use")
+
+def update_user_email(db: Session, user_id: int, new_email: str):
+    user = db.get(User, user_id)
+    if not user:
+        raise ValueError("User not found")
+    user.email = _norm_email(new_email)
+    try:
+        db.commit()
+        db.refresh(user)
+        return user
+    except IntegrityError:
+        db.rollback()
+        raise ValueError("Email already in use")
 
 ###########
 def create_admin(db: Session, username: str, password: str, email: str = None):
