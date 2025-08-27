@@ -127,18 +127,14 @@ def main():
     screen_param = params.get("screen")     # string ou None
     token_param  = params.get("token")      # string ou None
 
-    # Si un token est présent, on force l'écran de confirmation
     if token_param:
-        # on stocke le token en session (au cas où on nettoie l'URL ensuite)
+        # On va sur la page de confirmation
         st.session_state.reset_token = token_param
         st.session_state.current_screen = "reset_password_confirm"
-
-        # (Optionnel) nettoyer l'URL pour ne pas laisser le token visibles
+        # Nettoyage URL (garde seulement screen=reset_password_confirm)
         st.query_params.from_dict({"screen": "reset_password_confirm"})
         st.rerun()
-
-    # Sinon, on honore éventuellement 'screen' si présent
-    elif screen_param in {"login", "register", "reset_password", "reset_password_confirm"}:
+    elif screen_param and screen_param != st.session_state.current_screen:
         st.session_state.current_screen = screen_param
 
     #########
