@@ -122,17 +122,25 @@ def main():
     init_session_state()
     st.set_page_config(page_title="Ollama RAG", layout="wide")
     ########
-    # Lire les paramètres d'URL pour router automatiquement depuis l'e-mail
-    params = st.experimental_get_query_params()
-    screen_param = (params.get("screen") or [None])[0]
-    token_param  = (params.get("token")  or [None])[0]
+    # Lire les paramètres d'URL avec l'API moderne
+    params = st.query_params
+    screen_param = params.get("screen")     # string ou None
+    token_param  = params.get("token")      # string ou None
 
-    # Si un token est présent, on force la page de confirmation
+    # Si un token est présent, on force l'écran de confirmation
     if token_param:
+        # on stocke le token en session (au cas où on nettoie l'URL ensuite)
+        st.session_state.reset_token = token_param
         st.session_state.current_screen = "reset_password_confirm"
-    # Sinon, on honore éventuellement 'screen' (facultatif)
+
+        # (Optionnel) nettoyer l'URL pour ne pas laisser le token visibles
+        st.query_params.from_dict({"screen": "reset_password_confirm"})
+        st.rerun()
+
+    # Sinon, on honore éventuellement 'screen' si présent
     elif screen_param in {"login", "register", "reset_password", "reset_password_confirm"}:
         st.session_state.current_screen = screen_param
+
     #########
     # Router basé sur current_screen
     if st.session_state.current_screen == "landing":
