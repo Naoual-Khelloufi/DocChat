@@ -66,6 +66,9 @@ def show_reset_password_confirm():
                 db.close()
 
             st.success("Mot de passe modifié avec succès.")
-            if st.button("Se connecter"):
+            if st.button("← Retour à la connexion", key="back_to_login"):
+                st.session_state.pop("reset_token", None)              # nettoie la session
                 st.session_state.current_screen = "login"
+                st.query_params.from_dict({"screen": "login"})         # <<< MAJ de l'URL (enlève aussi ?token=...)
                 st.rerun()
+
