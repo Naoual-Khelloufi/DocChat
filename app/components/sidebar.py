@@ -189,4 +189,4 @@ def _logout():
     #st.session_state.pop("current_doc_id", None)
     #st.session_state.pop("chat_mode", None)
     # ne vide pas vector_db si tu préfères le garder en cache !
-    navigate("auth_choice")
+    navigate("landing")
