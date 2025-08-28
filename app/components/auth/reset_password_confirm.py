@@ -22,6 +22,14 @@ def show_reset_password_confirm():
         st.query_params.from_dict({"screen": "reset_password_confirm"})  # enlève 'token'
         st.rerun()
 
+    # ======= GARDE-FOU : pas de token -> on redirige automatiquement vers login =======
+    if not raw_token:
+        st.session_state.pop("reset_token", None)
+        st.session_state.current_screen = "login"
+        st.query_params.from_dict({"screen": "login"})
+        st.rerun()
+        st.stop()  # on arrête le rendu de cette page
+
     _, col, _ = st.columns([1, 2, 1])
     with col:
         if not raw_token:
