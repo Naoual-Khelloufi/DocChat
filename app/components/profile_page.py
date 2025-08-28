@@ -1,6 +1,7 @@
 import streamlit as st
 from core.auth import crud, database
 from collections import defaultdict
+from utils.nav import navigate
 
 def render():
     user = st.session_state.user
@@ -73,7 +74,8 @@ def render():
 
     # Bouton retour
     if st.button("⬅️ Retour"):
-        st.session_state.current_screen = "main_app"
+        navigate("main_app")
+        #st.session_state.current_screen = "main_app"
     
     if not history:
         st.info("Aucun message enregistré.")
