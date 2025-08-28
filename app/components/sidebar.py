@@ -3,7 +3,7 @@ from core.document import DocumentProcessor
 from core.embeddings import VectorStore
 from pathlib import Path 
 from core.auth import crud, database, models
-
+from utils.nav import navigate
 
 def process_files(uploaded_files):
     if not uploaded_files:               # rien à faire
@@ -59,8 +59,11 @@ def show_sidebar():
         user = st.session_state.get("user")          # dict ou None
         if user and user.get("role") != "guest":
             if st.button("👤 Profil", key="btn_profile"):
-                st.session_state.current_screen = "profile"   # nouvelle page
-        
+                #st.session_state.current_screen = "profile"   # nouvelle page
+                #st.query_params.from_dict({"screen": "profile"})   # <<< MAJ URL
+                #st.rerun()
+                navigate("profile")
+
         uploaded_files = st.file_uploader(
             "Téléversez vos documents",
             type=['pdf', 'txt', 'docx'],
@@ -180,9 +183,10 @@ def _logout():
         st.session_state.pop(k, None)
 
     # 2) remettre l’écran sur la page d’accueil / choix
-    st.session_state.current_screen = "landing"   # ou "auth_choice"
+    #st.session_state.current_screen = "landing"   # ou "auth_choice"
 
     # 3) (optionnel) vider d’autres états si tu veux
-    st.session_state.pop("current_doc_id", None)
-    st.session_state.pop("chat_mode", None)
+    #st.session_state.pop("current_doc_id", None)
+    #st.session_state.pop("chat_mode", None)
     # ne vide pas vector_db si tu préfères le garder en cache !
+    navigate("auth_choice")

@@ -4,6 +4,7 @@ from pathlib import Path
 from core.auth.database import get_db
 from core.auth.service import verify_reset_token, consume_reset_token
 
+
 def _load_css(path="assets/style-login.css"):
     p = Path(path)
     if p.exists():
