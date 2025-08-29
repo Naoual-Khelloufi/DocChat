@@ -10,6 +10,7 @@ from app.components.admin_dashboard import render as admin_dashboard  # 🆕
 from app.components.profile_page import render as profile_page   # adapte le chemin
 from app.components.history_view import render as history_view
 from app.components.auth.reset_password_confirm import show_reset_password_confirm
+from utils.nav import navigate
 
 def init_session_state():
     # États existants
@@ -45,21 +46,24 @@ def landing_page():
 
     with col1:
      if st.button("Connexion", key="login_btn", type="primary"):
-        st.session_state.current_screen = "auth_choice"
+        #st.session_state.current_screen = "auth_choice"
         st.session_state.auth_action = "login"
-        st.rerun()
+        navigate("auth_choice")
+        #st.rerun()
 
     with col2:
      if st.button("Inscription", key="register_btn", type="primary"):
-        st.session_state.current_screen = "auth_choice"
+        #st.session_state.current_screen = "auth_choice"
         st.session_state.auth_action = "register"
-        st.rerun()
+        navigate("auth_choice") 
+        #st.rerun()
 
     with col3:
      if st.button("Continuer sans compte", key="guest_btn", type="primary"):
         st.session_state.user = {"id": None, "username": "invité", "role": "guest"}
-        st.session_state.current_screen = "main_app"
-        st.rerun()
+        navigate("main_app")
+        #st.session_state.current_screen = "main_app"
+        #st.rerun()
 
     
     # Section Services
@@ -148,15 +152,18 @@ def main():
         
         # Gestion des actions après choix
         if st.session_state.get("auth_action") == "login":
-            st.session_state.current_screen = "login"
-            st.rerun()
+            #st.session_state.current_screen = "login"
+            #st.rerun()
+            navigate("login")  
         elif st.session_state.get("auth_action") == "register":
-            st.session_state.current_screen = "register"
-            st.rerun()
+            #st.session_state.current_screen = "register"
+            #st.rerun()
+            navigate("register")
         elif st.session_state.get("auth_action") == "guest":
             st.session_state.user = {"id": None,"username": "invité", "role": "guest"}
-            st.session_state.current_screen = "main_app"
-            st.rerun()
+            #st.session_state.current_screen = "main_app"
+            #st.rerun()
+            navigate("main_app")
 
     elif st.session_state.current_screen == "login":
         st.title("RagChat")
