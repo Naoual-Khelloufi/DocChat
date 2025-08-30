@@ -55,7 +55,7 @@ def landing_page():
      if st.button("Inscription", key="register_btn", type="primary"):
         #st.session_state.current_screen = "auth_choice"
         st.session_state.auth_action = "register"
-        navigate("auth_choice") 
+        navigate("register") 
         #st.rerun()
 
     with col3:
