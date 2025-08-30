@@ -14,7 +14,7 @@ def show_register() -> bool:
     ok = False  # Valeur de retour
 
     # --- Style intégré ---
-    with open("assets/style-login.css") as f:
+    with open("assets/style-register.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     # --- Contenu principal ---
