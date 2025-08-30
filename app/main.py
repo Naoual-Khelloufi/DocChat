@@ -48,7 +48,7 @@ def landing_page():
      if st.button("Connexion", key="login_btn", type="primary"):
         #st.session_state.current_screen = "auth_choice"
         st.session_state.auth_action = "login"
-        navigate("auth_choice")
+        navigate("login")
         #st.rerun()
 
     with col2:
