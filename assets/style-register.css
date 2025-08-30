@@ -1,50 +1,57 @@
 /* assets/style-register.css
-   ---------------------------------------------------------
-   Style autonome pour la page d'inscription
-   (même rendu que la page Connexion)
-   --------------------------------------------------------- */
+   Style autonome pour la page "Inscription" identique à "Connexion"
+*/
 
-/* Titre avec dégradé violet */
+/* Titre violet en dégradé */
 .register-title{
     font-size: 28px;
     font-weight: 800;
     text-align: center;
-    margin: 10px 0 30px;
+    margin: 10px 0 22px;
     background: linear-gradient(90deg,#8e44ad,#9b59b6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
-  /* Largeur "carte" centrée comme sur Connexion */
+  /* Même largeur et centrage que la page Connexion */
   section.main > div.block-container{
     max-width: 520px;
   }
   
-  /* Champs de texte (Streamlit) */
+  /* Aspect "carte" autour du formulaire */
+  form[data-testid="stForm"]{
+    background: #fff;
+    border: 1px solid #e7eaf3;
+    border-radius: 8px;
+    padding: 16px 18px 20px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.04);
+  }
+  
+  /* Champs de texte */
   div[data-testid="stTextInput"] input{
     width: 100%;
     padding: 12px;
     border-radius: 8px;
-    border: 2px solid #6e8efb;      /* bleu comme sur Connexion */
-    background: #f1f3f7;             /* gris clair */
-    margin-bottom: 20px;
-    transition: box-shadow .2s, border-color .2s, background .2s;
+    border: 2px solid #6e8efb;     /* bleu pâle */
+    background: #f1f3f7;
     outline: none;
+    transition: box-shadow .2s, border-color .2s, background .2s;
+    margin-bottom: 16px;
   }
   
   div[data-testid="stTextInput"] input:focus{
-    border-color: #8e44ad;           /* violet au focus */
+    border-color: #8e44ad;         /* violet au focus */
     box-shadow: 0 0 0 3px rgba(142,68,173,.15);
     background: #fff;
   }
   
-  /* Bouton principal (Submit du formulaire) */
+  /* Bouton principal (submit) */
   div[data-testid="stFormSubmitButton"] button{
     width: 100%;
     padding: 14px 16px;
-    border-radius: 28px;             /* pilule */
+    border-radius: 28px;            /* pilule */
     border: none;
-    background: #e74c3c;             /* rouge */
+    background: #e74c3c;            /* rouge */
     color: #fff;
     font-weight: 600;
     transition: transform .05s ease, box-shadow .2s, background-color .2s;
@@ -60,7 +67,7 @@
     transform: translateY(1px);
   }
   
-  /* Petits boutons (liens, retour, etc.) */
+  /* Petits boutons "lien" (optionnels) */
   div.stButton > button{
     background: transparent;
     border: 1px solid #8e44ad;
@@ -70,7 +77,7 @@
     font-weight: 600;
   }
   
-  /* Ligne de liens sous le formulaire (optionnel) */
+  /* Ligne de liens sous le formulaire (si tu en ajoutes) */
   .register-links{
     display: flex;
     justify-content: center;
