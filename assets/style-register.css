@@ -5,10 +5,13 @@
 /* Titre violet en dégradé */
 .register-title{
     font-size: 28px;
-    font-weight: 800;
+    /*font-weight: 800;*/
+    font-weight: bold;
     text-align: center;
-    margin: 10px 0 22px;
-    background: linear-gradient(90deg,#8e44ad,#9b59b6);
+    /*margin: 10px 0 22px;*/
+    margin-bottom: 30px;
+    background: linear-gradient(to right, #8e44ad, #9b59b6);
+    /*background: linear-gradient(90deg,#8e44ad,#9b59b6);*/
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

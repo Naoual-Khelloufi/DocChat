@@ -3,10 +3,10 @@
 .login-title {
     font-size: 28px;
     font-weight: bold;
+    text-align: center;
     background: linear-gradient(to right, #8e44ad, #9b59b6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-align: center;
     margin-bottom: 30px;
 }
 
