@@ -4,6 +4,9 @@ from core.embeddings import VectorStore
 from pathlib import Path 
 from core.auth import crud, database, models
 from utils.nav import navigate
+from reporting.log import log_event
+import uuid
+
 
 def process_files(uploaded_files):
     if not uploaded_files:               # rien à faire
@@ -39,6 +42,21 @@ def process_files(uploaded_files):
         doc = crud.save_document(db, uid, up.name, str(dest))
         st.session_state.current_doc_id = doc.id
 
+        ########
+         # LOG upload → Reporting
+        log_event(
+            event_type="upload",
+            user_id=st.session_state.get("user_id"),
+            session_id=st.session_state.get("session_id"),
+            payload={
+                "filename": up.name,
+                "size": getattr(up, "size", None),
+                "path": str(dest),
+                "doc_id": doc.id
+            }
+        )
+        ########
+
         # --- 4  Vectorisation ---------------------------------------
         raw    = processor.load_document(dest)
         chunks = processor.split_documents(raw)
@@ -56,6 +74,10 @@ def show_sidebar():
     with st.sidebar:
         # Affichage de l'icône profil pour tout utilisateur connecté
         #if st.session_state.get("user"):
+        #####
+        if "session_id" not in st.session_state:
+            st.session_state.session_id = str(uuid.uuid4())
+        #####
         user = st.session_state.get("user")          # dict ou None
         if user and user.get("role") != "guest":
             if st.button("👤 Profil", key="btn_profile"):
