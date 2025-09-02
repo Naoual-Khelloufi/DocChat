@@ -133,7 +133,8 @@ def show_sidebar():
         if st.session_state.user["role"] == "admin":
             st.markdown("---")
             if st.button("🔧 Admin Dashboard"):
-                st.session_state.current_screen = "admin_dashboard"
+                navigate("admin_dashboard")
+                #st.session_state.current_screen = "admin_dashboard"
 
 
         _show_library()
