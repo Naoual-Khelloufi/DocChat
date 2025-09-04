@@ -1,15 +1,15 @@
 import streamlit as st
 from components.sidebar import show_sidebar
 from components.chat import chat_interface
-from components.pdf_viewer import display_pdf_viewer, display_pdf_viewer_by_id
 from app.components.auth.choice import show_auth_choice
 from app.components.auth.login import show_login
 from app.components.auth.register import show_register
 from app.components.auth.reset_password import show_reset_password
 from app.components.admin_dashboard import render as admin_dashboard  # 🆕
-from app.components.profile_page import render as profile_page   # adapte le chemin
+from app.components.profile_page import render as profile_page   # adapte le cheminS
 from app.components.history_view import render as history_view
 from app.components.auth.reset_password_confirm import show_reset_password_confirm
+from components.pdf_viewer import display_file_viewer, display_file_viewer_by_id
 from utils.nav import navigate
 
 def init_session_state():
@@ -112,9 +112,9 @@ def main_interface():
 
     with col1:
         if doc_id:
-            display_pdf_viewer_by_id(doc_id)
+            display_file_viewer_by_id(doc_id)
         elif st.session_state.uploaded_files:
-            display_pdf_viewer(temp_dir)
+            display_file_viewer(temp_dir)
 
     with col2:
         chat_interface()
