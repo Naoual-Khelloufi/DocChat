@@ -1,8 +1,7 @@
 import streamlit as st
 from core.auth import crud, database
-from app.components.pdf_viewer import display_pdf_viewer_by_id
 from app.components.chat import answer_question
-
+from app.components.pdf_viewer import display_file_viewer_by_id
 
 
 def render():
@@ -26,7 +25,7 @@ def render():
     #######
     if st.session_state.view_doc_id:
         with st.container():
-            display_pdf_viewer_by_id(st.session_state.view_doc_id)
+            display_file_viewer_by_id(st.session_state.view_doc_id)
             st.markdown("---")
     #######
 
@@ -34,7 +33,7 @@ def render():
     if doc_id:
         col_pdf, col_chat = st.columns([1, 2])
         with col_pdf: 
-            display_pdf_viewer_by_id(doc_id)
+            display_file_viewer_by_id(doc_id)
     else:
         col_chat = st.container()
 
