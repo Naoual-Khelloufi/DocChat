@@ -88,7 +88,7 @@ def show_sidebar():
 
         uploaded_files = st.file_uploader(
             "Téléversez vos documents",
-            type=['pdf', 'txt', 'docx'],
+            type=['pdf', 'txt', 'docx', 'csv', 'PPT', 'PPTX', 'PNG', 'JPG', 'JPEG'],
             accept_multiple_files=True
         )
         
