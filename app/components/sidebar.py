@@ -78,7 +78,20 @@ def show_sidebar():
         if "session_id" not in st.session_state:
             st.session_state.session_id = str(uuid.uuid4())
         #####
-        user = st.session_state.get("user")          # dict ou None
+        #user = st.session_state.get("user")          # dict ou None
+        #####
+        # --- Normaliser 'user' et 'user_id' AVANT l'upload ---
+        user = st.session_state.get("user", {})
+        # si pas de clé 'id', on met None et on ré-injecte
+        if "id" not in user:
+            user["id"] = None
+            st.session_state["user"] = user
+
+        # créer la clé user_id si manquante
+        if "user_id" not in st.session_state:
+            st.session_state["user_id"] = user["id"]
+
+        #####
         if user and user.get("role") != "guest":
             if st.button("👤 Profil", key="btn_profile"):
                 #st.session_state.current_screen = "profile"   # nouvelle page
