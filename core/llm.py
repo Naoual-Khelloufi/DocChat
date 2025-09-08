@@ -98,3 +98,29 @@ class LLMManager:
         except Exception as e:
             logger.warning(f"Query expansion failed, using original: {e}")
             return [question]
+
+    # --- À AJOUTER dans LLMManager (à côté de _get_rag_prompt) ---
+    def _get_general_prompt(self) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_template(
+            """You are a helpful assistant.
+    Rules:
+    1) Answer clearly and concisely.
+    2) If the user explicitly requests a language (e.g., "réponds en anglais"), follow it.
+    3) If the question is ambiguous, ask one brief clarifying question before answering.
+
+    Question:
+    {question}
+
+    Answer:"""
+        )
+
+    # --- À AJOUTER dans LLMManager (une nouvelle méthode) ---
+    def generate_general(self, question: str, max_tokens: int = 600) -> str:
+        try:
+            prompt = self._get_general_prompt().format(question=question)
+            # Si tu veux limiter la longueur: self.llm.bind(num_predict=max_tokens)
+            resp = self.llm.invoke(prompt)
+            return (resp.content or "").strip()
+        except Exception as e:
+            logger.error(f"General answer failed: {e}")
+            raise
