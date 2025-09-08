@@ -11,7 +11,6 @@ from app.components.history_view import render as history_view
 from app.components.auth.reset_password_confirm import show_reset_password_confirm
 from components.pdf_viewer import display_file_viewer, display_file_viewer_by_id
 from utils.nav import navigate
-####
 from reporting.db import init_db
 
 def init_session_state():
