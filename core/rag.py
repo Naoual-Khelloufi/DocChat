@@ -36,7 +36,11 @@ class RAGPipeline:
 
     def _retrieve_context(self, question: str):
         """Basic retrieval using your existing vector store."""
-        return self.vector_store.similarity_search(question, k=4)
+        try:
+            return self.vector_store.similarity_search(question, k=4)
+        except Exception:
+            # si la base vectorielle n'est pas initialisée
+            return []
 
     #def get_response(self, question: str) -> str:
         """
