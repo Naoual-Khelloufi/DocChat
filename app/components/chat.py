@@ -15,11 +15,65 @@ def chat_interface():
             st.markdown(msg["content"])
     
     # Nouveau message
-    if prompt := st.chat_input("Posez votre question..."):
+    prompt = st.chat_input("Posez votre question...")
+    if prompt:
         with st.chat_message("user"):
             st.markdown(prompt)
-        
         st.session_state.chat_history.append({"role": "user", "content": prompt})
+
+        llm = LLMManager(model_name=st.session_state.get("selected_model", "llama3.2:latest"))
+
+        try:
+            with track_event(
+                event_type="query",
+                user_id=st.session_state.get("user_id"),
+                session_id=st.session_state.get("session_id"),
+                prompt=prompt,
+                payload={"source": "chat_interface", "top_k": 3}
+            ):
+                # 1) Contexte si index présent
+                context = []
+                if 'vector_db' in st.session_state and st.session_state.vector_db:
+                    context = st.session_state.vector_db.similarity_search(prompt, k=3)
+
+                # 2) Réponse : RAG si contexte, sinon générale
+                if context:
+                    response = llm.generate_answer(context, prompt)
+                    #mode = "RAG"
+                else:
+                    response = llm.generate_general(prompt, max_tokens=600)
+                    #mode = "GENERAL"
+
+            # 3) Affichage + persistance
+            with st.chat_message("assistant"):
+                st.markdown(response)
+                # (optionnel) badge de mode :
+                # st.caption("📄 Réponse basée sur vos documents" if mode=="RAG" else "🌐 Réponse générale")
+
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+
+            if ("user_id" in st.session_state and st.session_state["user_id"] is not None):
+                db = database.SessionLocal()
+                crud.save_chat_history(db, user_id=st.session_state["user_id"], question=prompt, answer=response)
+
+        except Exception as e:
+            # track_event a déjà loggé status="error", on ajoute un log explicite si tu veux
+            log_event(
+                event_type="error",
+                user_id=st.session_state.get("user_id"),
+                session_id=st.session_state.get("session_id"),
+                status="error",
+                latency_ms=0,
+                prompt=(prompt or "")[:500],
+                payload={"where": "chat_interface", "error": str(e)[:300]},
+            )
+            st.error(f"Erreur : {str(e)}")
+
+    #if prompt := st.chat_input("Posez votre question..."):
+        #with st.chat_message("user"):
+        #    st.markdown(prompt)
+        
+        #st.session_state.chat_history.append({"role": "user", "content": prompt})
         
         #if 'vector_db' in st.session_state and st.session_state.vector_db:
         #    with st.spinner("Recherche en cours..."):
@@ -50,44 +104,9 @@ def chat_interface():
         #                    payload={"where": "chat_interface", "error": str(e)[:300]}
         #                )
         #                st.error(f"Erreur : {str(e)}")
-        if 'vector_db' in st.session_state and st.session_state.vector_db:
-            with st.spinner("Recherche en cours..."):
-                with track_event(...):
-                    try:
-                        llm = LLMManager(model_name=st.session_state.get("selected_model", "llama3.2:latest"))
-                        context = st.session_state.vector_db.similarity_search(prompt, k=3)
-
-                        # ✅ FALLBACK si la recherche ne renvoie rien
-                        if not context:
-                            response = llm.generate_general(prompt, max_tokens=600)
-                        else:
-                            response = llm.generate_answer(context, prompt)
-
-                        with st.chat_message("assistant"):
-                            st.markdown(response)
-                        st.session_state.chat_history.append({"role": "assistant", "content": response})
-
-                        if ("user_id" in st.session_state and st.session_state["user_id"] is not None):
-                            db = database.SessionLocal()
-                            crud.save_chat_history(db, user_id=st.session_state["user_id"], question=prompt, answer=response)
-                    except Exception as e:
-                        log_event(...)
-                        st.error(f"Erreur : {str(e)}")
-        else:
+        #else:
             #st.warning("Veuillez d'abord charger des documents")
-            llm = LLMManager(model_name=st.session_state.get("selected_model", "llama3.2:latest"))
-            try:
-                response = llm.generate_general(prompt, max_tokens=600)
-                with st.chat_message("assistant"):
-                    st.markdown(response)
-                st.session_state.chat_history.append({"role": "assistant", "content": response})
-
-                if ("user_id" in st.session_state and st.session_state["user_id"] is not None):
-                    db = database.SessionLocal()
-                    crud.save_chat_history(db, user_id=st.session_state["user_id"], question=prompt, answer=response)
-            except Exception as e:
-                log_event(...)
-                st.error(f"Erreur : {str(e)}")
+            
 
 
 def answer_question(question: str, doc_id: int | None = None) -> str:
