@@ -88,3 +88,15 @@ class VectorStore:
             raise ValueError("Vector database not initialized")
             
         return self.vector_db.similarity_search(query, k=k)
+
+    
+
+    def is_empty(self) -> bool:
+        """Return True if the vector DB has no entries."""
+        if not self.vector_db:
+            return True
+        try:
+            data = self.vector_db.get()
+            return len(data.get("ids", [])) == 0
+        except Exception:
+            return True
