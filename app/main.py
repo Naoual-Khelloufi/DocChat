@@ -11,6 +11,8 @@ from app.components.history_view import render as history_view
 from app.components.auth.reset_password_confirm import show_reset_password_confirm
 from components.pdf_viewer import display_file_viewer, display_file_viewer_by_id
 from utils.nav import navigate
+####
+from reporting.db import init_db
 
 def init_session_state():
     # États existants
@@ -125,6 +127,8 @@ def main_interface():
 def main():
     init_session_state()
     st.set_page_config(page_title="Ollama RAG", layout="wide")
+    #########
+    init_db()
     ########
     # Lire les paramètres d'URL avec l'API moderne
     params = st.query_params
