@@ -46,6 +46,55 @@
         "question": "Give two major application areas of Python.",
         "expected_answer": "Python is widely used in web development (via Django or Flask) and in data analysis and artificial intelligence (with libraries such as NumPy, Pandas, or TensorFlow).",
         "relevant_sources": ["article_python_en.txt"]
+      },
+      {
+        "id": "Q5-FR",
+        "question": "Quand et lors de quel événement le terme 'intelligence artificielle' a-t-il été introduit ?",
+        "expected_answer": "Le terme intelligence artificielle a été introduit en 1956 lors de la conférence de Dartmouth.",
+        "relevant_sources": ["article_IA_fr.txt"]
+      },
+      {
+        "id": "Q6-FR",
+        "question": "Citez deux domaines d'application de l'intelligence artificielle.",
+        "expected_answer": "La santé (diagnostic, analyse d’images médicales) et les transports (véhicules autonomes, gestion du trafic) sont deux domaines d’application de l’IA.",
+        "relevant_sources": ["article_IA_fr.txt"]
+      },
+      {
+        "id": "Q5-EN",
+        "question": "When and at which event was the term 'artificial intelligence' introduced?",
+        "expected_answer": "The term artificial intelligence was introduced in 1956 at the Dartmouth Conference.",
+        "relevant_sources": ["article_IA_en.txt"]
+      },
+      {
+        "id": "Q6-EN",
+        "question": "Name two application areas of artificial intelligence.",
+        "expected_answer": "Healthcare (diagnostic support, medical image analysis) and transportation (autonomous vehicles, intelligent traffic management) are two application areas of AI.",
+        "relevant_sources": ["article_IA_en.txt"]
+      },
+      {
+        "id": "Q7-FR",
+        "question": "Pourquoi le choix du dataset est-il crucial dans la performance d’un modèle d’apprentissage ?",
+        "expected_answer": "Parce qu’un modèle ne peut pas être plus performant que les données sur lesquelles il est entraîné. Le dataset doit être pertinent, de qualité, diversifié et équilibré pour garantir des prédictions fiables.",
+        "relevant_sources": ["article_dataset_fr.txt"]
+      },
+      {
+        "id": "Q8-FR",
+        "question": "Citez deux opérations essentielles du prétraitement des données.",
+        "expected_answer": "Le nettoyage des données (gestion des valeurs manquantes et aberrantes) et la transformation/normalisation (mise à l’échelle, encodage des variables).",
+        "relevant_sources": ["article_dataset_fr.txt"]
+      },
+      {
+        "id": "Q7-EN",
+        "question": "Why is dataset selection crucial for machine learning model performance?",
+        "expected_answer": "Because a model can only be as good as the data it is trained on. The dataset must be relevant, of high quality, diverse, and balanced to ensure reliable predictions.",
+        "relevant_sources": ["article_dataset_en.txt"]
+      },
+      {
+        "id": "Q8-EN",
+        "question": "Name two essential operations in data preprocessing.",
+        "expected_answer": "Data cleaning (handling missing values and outliers) and transformation/normalization (scaling variables, encoding categories).",
+        "relevant_sources": ["article_dataset_en.txt"]
       }
+    
   ]
   
