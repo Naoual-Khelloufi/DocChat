@@ -32,7 +32,7 @@ class LLMManager:
 
     def generate_answer(
         self,
-        context: List[LangchainDocument],  # Type matches document.py/embeddings.py
+        context: List[LangchainDocument],  
         question: str,
         max_tokens: int = 1000
     ) -> str:
@@ -48,7 +48,7 @@ class LLMManager:
             Generated answer string
         """
         try:
-            # Format context from your document chunks
+            # Format context from document chunks
             context_text = "\n\n".join([doc.page_content for doc in context])
             
             response = self.llm.invoke(
@@ -99,7 +99,7 @@ class LLMManager:
             logger.warning(f"Query expansion failed, using original: {e}")
             return [question]
 
-    # --- À AJOUTER dans LLMManager (à côté de _get_rag_prompt) ---
+    # for general question generation
     def _get_general_prompt(self) -> ChatPromptTemplate:
         return ChatPromptTemplate.from_template(
             """You are a helpful assistant.
@@ -114,11 +114,10 @@ class LLMManager:
     Answer:"""
         )
 
-    # --- À AJOUTER dans LLMManager (une nouvelle méthode) ---
     def generate_general(self, question: str, max_tokens: int = 600) -> str:
         try:
             prompt = self._get_general_prompt().format(question=question)
-            # Si tu veux limiter la longueur: self.llm.bind(num_predict=max_tokens)
+            # to limite length: self.llm.bind(num_predict=max_tokens)
             resp = self.llm.invoke(prompt)
             return (resp.content or "").strip()
         except Exception as e:
