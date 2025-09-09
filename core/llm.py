@@ -123,3 +123,28 @@ class LLMManager:
         except Exception as e:
             logger.error(f"General answer failed: {e}")
             raise
+
+    def _get_rag_prompt_eval(self) -> ChatPromptTemplate:
+        """
+        Prompt for evaluation (strict).
+        More constrained: short and closer to gold answers.
+        """
+        return ChatPromptTemplate.from_template(
+            """You are a RAG assistant. Strict rules:
+
+    1) Answer ONLY using the information provided in the context.
+    2) If the answer is not present, reply exactly: "Information not found" 
+        (or "Information non trouvée" in French).
+    3) Respond in the SAME language as the question, unless another language is explicitly requested.
+    4) Be concise: maximum 2 sentences.
+    5) If the answer is a short fact, definition or date, COPY the exact wording from the context whenever possible.
+    6) Do not add introductions or extra details outside the context.
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+
+    Answer:"""
+        )
