@@ -1,10 +1,9 @@
-# Embeddings generation
 """Vector embeddings and database functionality for local Ollama setup."""
 import logging
 from typing import List
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_core.documents import Document as LangchainDocument  # Compatibilité avec document.py
+from langchain_core.documents import Document as LangchainDocument
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ class VectorStore:
 
     def create_vector_db(
         self, 
-        documents: List[LangchainDocument],  # Type matching document.py
+        documents: List[LangchainDocument],  
         collection_name: str = "local-rag",
         persist_dir: str = None
     ) -> Chroma:
@@ -73,7 +72,7 @@ class VectorStore:
         self,
         query: str,
         k: int = 4
-    ) -> List[LangchainDocument]:  # Return type matches document.py
+    ) -> List[LangchainDocument]:  
         """
         Perform similarity search against stored vectors.
         

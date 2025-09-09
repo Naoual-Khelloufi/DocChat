@@ -1,0 +1,27 @@
+[
+    {
+      "id": "Q1-FR",
+      "question": "Qu'est-ce que le réchauffement climatique et quelles en sont les principales causes ?",
+      "expected_answer": "Le réchauffement climatique est l'augmentation progressive de la température moyenne de la planète, principalement due aux activités humaines comme la combustion d’énergies fossiles, la déforestation, l’agriculture intensive et l’urbanisation.",
+      "relevant_sources": ["article_climat_fr.txt"]
+    },
+    {
+      "id": "Q2-FR",
+      "question": "Citez deux conséquences déjà observables du réchauffement climatique.",
+      "expected_answer": "La fonte des glaciers et l’élévation du niveau des mers, ainsi que l’augmentation de la fréquence et de l’intensité des phénomènes météorologiques extrêmes comme les canicules et les tempêtes.",
+      "relevant_sources": ["article_climat_fr.txt"]
+    },
+    {
+      "id": "Q1-EN",
+      "question": "What is climate change and what are its main human causes?",
+      "expected_answer": "Climate change is the progressive increase in the Earth's average temperature, mainly due to human activities such as burning fossil fuels, deforestation, intensive agriculture, and land use changes.",
+      "relevant_sources": ["article_climat_en.txt"]
+    },
+    {
+      "id": "Q2-EN",
+      "question": "Give two observed consequences of climate change.",
+      "expected_answer": "Melting glaciers and rising sea levels, as well as more frequent and intense extreme weather events such as heatwaves and storms.",
+      "relevant_sources": ["article_climat_en.txt"]
+    }
+  ]
+  
