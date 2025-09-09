@@ -21,7 +21,7 @@ class LLMManager:
             self.llm = ChatOllama(
                 model=model_name,
                 temperature=0.3,  # Balances creativity/factuality
-                base_url="http://localhost:11434",  # Matches embeddings.py
+                base_url="http://localhost:11434",  
                 num_ctx=2048, # Consistent context window
                 num_threads=2
             )
