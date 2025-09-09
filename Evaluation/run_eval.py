@@ -22,7 +22,6 @@ import argparse
 import re
 from pathlib import Path
 from typing import List, Tuple
-from core.document import DocumentProcessor
 from core.embeddings import VectorStore
 from core.llm import LLMManager
 from langchain_core.documents import Document as LCDocument
@@ -82,8 +81,19 @@ def exact_match(pred: str, gold: str) -> int:
 #   Evaluation pipeline
 # -----------------------
 def build_index_from_corpus(corpus_dir: Path) -> VectorStore:
-    """Reads all text files from the corpus, splits them, and builds an in-memory index."""
-    dp = DocumentProcessor(chunk_size=700, chunk_overlap=100)
+    """
+    Reads all text files from the corpus, splits them into chunks, 
+    and builds an in-memory vector index.
+    """
+    # Robust splitter (use langchain_text_splitters if available, 
+    # fallback to older langchain.text_splitter for compatibility)
+    try:
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
+    except Exception:
+        from langchain.text_splitter import RecursiveCharacterTextSplitter  # compatibility for versions < 0.2
+
+    splitter = RecursiveCharacterTextSplitter(chunk_size=700, chunk_overlap=100)
+
     vs = VectorStore()
     docs: List[LCDocument] = []
 
@@ -91,12 +101,15 @@ def build_index_from_corpus(corpus_dir: Path) -> VectorStore:
         if not fp.is_file():
             continue
         text = fp.read_text(encoding="utf-8", errors="ignore")
-        chunks = dp.split(text, source=fp.name)  # IMPORTANT: metadata['source']= file name
+        # Create LangChain Documents with metadata "source" = filename
+        chunks = splitter.create_documents([text], metadatas=[{"source": fp.name}])
         docs.extend(chunks)
 
-    # Memory index  (persist_dir=None)
+    # Build the vector index in memory (no persistence needed for evaluation)
     vs.create_vector_db(documents=docs, collection_name="eval-run", persist_dir=None)
     return vs
+
+
 
 def retrieve_topk(vs: VectorStore, question: str, k: int) -> Tuple[List[LCDocument], List[str]]:
     """Renvoie (docs, sources) ordonnés par similarité (top-k)."""
