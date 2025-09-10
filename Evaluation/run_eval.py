@@ -2,18 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Offline RAG Evaluation (strict prompt)
+Offline RAG Evaluation (STRICT prompt, no num_predict)
 - Builds an in-memory vector index from data/corpus_eval
 - Loads data/eval/evaluation_set.json
 - For each question: retrieval top-k + strict RAG generation
 - Computes metrics: Precision@k, Recall@k, MRR, EM, F1
 - Saves detailed CSV + JSON summary
 
-Recommended for stable runs:
+Recommended for stability:
   export LLM_TEMPERATURE=0
   export LLM_SEED=42
-Optionally cap generation:
-  export LLM_NUM_PREDICT=220
 """
 
 import os
@@ -108,7 +106,7 @@ def f1_score(pred: str, gold: str) -> float:
     if tp == 0:
         return 0.0
     prec = tp / len(p_set)
-    rec = tp / len(g_set)
+    rec  = tp / len(g_set)
     return 2 * prec * rec / (prec + rec)
 
 def exact_match(pred: str, gold: str) -> int:
@@ -124,47 +122,41 @@ def retrieve_topk(vs: VectorStore, question: str, k: int) -> Tuple[List[LCDocume
     docs = vs.similarity_search(question, k=k)
     sources = []
     for d in docs:
-        src = (d.metadata or {}).get("source")
-        sources.append(src)
+        sources.append((d.metadata or {}).get("source"))
     return docs, sources
 
-def generate_answer(llm: LLMManager, question: str, docs: List[LCDocument], max_tokens: int = 200) -> str:
+def generate_answer(llm: LLMManager, question: str, docs: List[LCDocument]) -> str:
     """
     Uses the STRICT evaluation prompt to produce short, comparable answers.
-    We keep the UI prompt untouched; this is only for offline benchmarking.
+    We do NOT rely on num_predict; concision is enforced by the prompt itself.
     """
     if not docs:
-        # Safety: in evaluation we want "not found" rather than a general answer.
+        # Strict eval: no general answer if nothing is retrieved
         return "Information not found"
 
-    # Join chunk texts as the evaluation context
     context_text = "\n\n".join([d.page_content for d in docs])
 
-    # Build the strict evaluation prompt (must exist in LLMManager)
     prompt = llm._get_rag_prompt_eval().format(
         context=context_text,
         question=question
     )
 
-    # Limit generation to reduce verbosity and improve EM/F1.
-    # If your ChatOllama binding supports .bind, this will apply per-call.
-    llm_bound = llm.llm.bind(num_predict=max_tokens) if max_tokens else llm.llm
-
-    resp = llm_bound.invoke(prompt)
+    resp = llm.llm.invoke(prompt)
     return (resp.content or "").strip()
 
 # -----------------------
 #   Evaluation loop
 # -----------------------
-def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int, max_tokens: int):
-    # 0) LLM (deterministic settings are recommended via env)
-    #    LLM_TEMPERATURE=0, LLM_SEED=42, optional LLM_NUM_PREDICT
-    llm = LLMManager(model_name=os.getenv("EVAL_MODEL", "llama3.2:latest"))
+def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int):
+    # Optional but recommended for determinism
+    os.environ.setdefault("LLM_TEMPERATURE", "0")
+    os.environ.setdefault("LLM_SEED", "42")
 
-    # 1) (Re)build index from corpus
+    # LLM + index
+    llm = LLMManager(model_name=os.getenv("EVAL_MODEL", "llama3.2:latest"))
     vs = build_index_from_corpus(corpus_dir)
 
-    # 2) Load dataset
+    # Dataset
     items = json.loads(dataset_path.read_text(encoding="utf-8"))
     if not items:
         raise RuntimeError("Empty dataset.")
@@ -173,30 +165,24 @@ def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int, max_to
     agg = {"p": [], "r": [], "mrr": [], "f1": [], "em": []}
 
     for it in items:
-        # Deduplicate relevant sources if needed
-        rel = list(dict.fromkeys(it.get("relevant_sources", []) or []))
-
+        rel = list(dict.fromkeys(it.get("relevant_sources", []) or []))  # dedupe
         qid  = it["id"]
         q    = it["question"]
         gold = it["expected_answer"]
 
-        # Retrieval
         docs, retrieved_srcs = retrieve_topk(vs, q, k=k)
+        ans = generate_answer(llm, q, docs)
 
-        # Strict generation (evaluation-only prompt)
-        ans = generate_answer(llm, q, docs, max_tokens=max_tokens)
-
-        # Metrics
         p  = precision_at_k(retrieved_srcs, rel, k)
         r  = recall_at_k(retrieved_srcs, rel, k)
         rr = mrr(retrieved_srcs, rel)
         f1 = f1_score(ans, gold)
         em = exact_match(ans, gold)
 
-        agg["p"].append(p)
-        agg["r"].append(r)
-        agg["mrr"].append(rr)
-        agg["f1"].append(f1)
+        agg["p"].append(p) 
+        agg["r"].append(r) 
+        agg["mrr"].append(rr) 
+        agg["f1"].append(f1) 
         agg["em"].append(em)
 
         rows.append({
@@ -213,7 +199,7 @@ def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int, max_to
             "exact_match": em
         })
 
-    # 3) Save outputs
+    # Write outputs
     out_csv.parent.mkdir(parents=True, exist_ok=True)
     with out_csv.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
@@ -222,7 +208,6 @@ def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int, max_to
 
     summary = {
         "k": k,
-        "max_tokens": max_tokens,
         "n_questions": len(rows),
         f"mean_precision@{k}": round(sum(agg["p"]) / len(agg["p"]), 4) if agg["p"] else 0.0,
         f"mean_recall@{k}":    round(sum(agg["r"]) / len(agg["r"]), 4) if agg["r"] else 0.0,
@@ -233,7 +218,6 @@ def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int, max_to
     }
     out_json = out_csv.with_suffix(".json")
     out_json.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
-
     print(json.dumps(summary, indent=2, ensure_ascii=False))
 
 # -----------------------
@@ -245,19 +229,11 @@ if __name__ == "__main__":
     ap.add_argument("--dataset", type=str, default=str(ROOT_DIR / "data/eval/evaluation_set.json"))
     ap.add_argument("--out",     type=str, default=str(CUR_DIR / "results/eval_run.csv"))
     ap.add_argument("--k",       type=int, default=3, help="top-k for retrieval")
-    ap.add_argument(
-        "--max_tokens",
-        type=int,
-        default=200,
-        help="max generated tokens (strict eval: keep small to boost EM/F1)"
-    )
     args = ap.parse_args()
 
     run_eval(
         Path(args.corpus),
         Path(args.dataset),
         Path(args.out),
-        args.k,
-        args.max_tokens
+        args.k
     )
-
