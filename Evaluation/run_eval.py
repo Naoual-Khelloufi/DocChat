@@ -65,23 +65,39 @@ def build_index_from_corpus(corpus_dir: Path) -> VectorStore:
 # -----------------------
 #   Metrics
 # -----------------------
+def _uniq_topk(sources: List[str], k: int) -> List[str]:
+    """Return up to k distinct sources in original order."""
+    seen, uniq = set(), []
+    for s in sources:
+        if s is None:
+            continue
+        if s not in seen:
+            seen.add(s)
+            uniq.append(s)
+            if len(uniq) == k:
+                break
+    return uniq
+
 def precision_at_k(retrieved_sources: List[str], relevant_sources: List[str], k: int) -> float:
     if k <= 0:
         return 0.0
-    topk = retrieved_sources[:k]
-    tp = sum(1 for s in topk if s in relevant_sources)
-    return tp / k
+    topk = _uniq_topk(retrieved_sources, k)  # distinct docs only
+    if not topk:
+        return 0.0
+    rel_set = set(relevant_sources or [])
+    tp = sum(1 for s in topk if s in rel_set)
+    # precision@k is tp divided by the number of results considered (≤ k after de-dup)
+    return tp / len(topk)
 
 def recall_at_k(retrieved_sources: List[str], relevant_sources: List[str], k: int) -> float:
-    """
-    Recall@k is bounded in [0,1]. If you only have 1 relevant source per question,
-    recall@k equals precision@k.
-    """
-    if not relevant_sources:
+    """Recall@k ∈ [0,1] measured over distinct documents, not chunks."""
+    rel_set = set(relevant_sources or [])
+    if not rel_set:
         return 0.0
-    topk = retrieved_sources[:k]
-    tp = sum(1 for s in topk if s in relevant_sources)
-    return tp / len(relevant_sources)
+    topk = _uniq_topk(retrieved_sources, k)  # distinct docs only
+    tp = sum(1 for s in topk if s in rel_set)
+    return tp / len(rel_set)
+
 
 def mrr(retrieved_sources: List[str], relevant_sources: List[str]) -> float:
     for rank, src in enumerate(retrieved_sources, start=1):
