@@ -1,10 +1,10 @@
 {
   "k": 3,
   "n_questions": 16,
-  "mean_precision@3": 0.9167,
-  "mean_recall@3": 2.75,
+  "mean_precision@3": 0.875,
+  "mean_recall@3": 1.0,
   "mean_mrr": 1.0,
-  "mean_f1": 0.6059,
+  "mean_f1": 0.6163,
   "mean_em": 0.0625,
   "out_csv": "Evaluation/results/eval_2025-09-10_k3.csv"
 }

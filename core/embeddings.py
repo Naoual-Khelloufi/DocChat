@@ -71,7 +71,7 @@ class VectorStore:
     def similarity_search(
         self,
         query: str,
-        k: int = 4
+        k: int = 3
     ) -> List[LangchainDocument]:  
         """
         Perform similarity search against stored vectors.
