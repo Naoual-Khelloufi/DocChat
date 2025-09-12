@@ -3,15 +3,24 @@ import re
 import time
 import streamlit as st
 from pathlib import Path
-
 from core.auth.database import get_db
 from core.auth.service import request_password_reset  # doit exister côté backend
+import base64
+import mimetypes
 
 # ----------- CSS -----------
 def _load_css(path: str = "assets/style-login.css"):
     p = Path(path)
     if p.exists():
         st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
+def _img_data_uri(path: str) -> str:
+    mime, _ = mimetypes.guess_type(path)
+    if not mime:
+        mime = "image/png"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
 
 # ----------- Rate-limit simple (session) -----------
 def can_request(email: str) -> bool:
@@ -30,6 +39,15 @@ def can_request(email: str) -> bool:
 # ----------- UI -----------
 def show_reset_password():
     _load_css()
+    src = _img_data_uri("assets/logo_1.png")  
+    st.markdown(
+        f"""
+        <div class="login-logo">
+            <img src="{src}" alt="DocChat Logo"/>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     st.markdown("<h1 class='login-title'>Réinitialiser le mot de passe</h1>", unsafe_allow_html=True)
 
     _, col, _ = st.columns([1, 2, 1])
