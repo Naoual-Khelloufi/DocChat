@@ -19,7 +19,7 @@ class Event(Base):
     tokens_in = Column(Integer, nullable=True)
     tokens_out = Column(Integer, nullable=True)
     score = Column(Float, nullable=True)
-    feedback = Column(String(10), nullable=True)        # 'up' | 'down'
+    #mfeedback = Column(String(10), nullable=True)        # 'up' | 'down'
     prompt = Column(Text, nullable=True)                # (sera tronqué côté logger)
     response_summary = Column(Text, nullable=True)
     payload = Column(JSON, nullable=True)               # libre: {filename, doc_ids, ...}
