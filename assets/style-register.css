@@ -25,18 +25,9 @@
 
 
 
-/*.register-card{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-  margin-bottom: 10px;
-}/
-
-
 /* Même largeur et centrage que Connexion */
 section.main > div.block-container{
-  max-width: 520px;
+  max-width: 220px;
 }
 
 /* Carte autour du formulaire */
