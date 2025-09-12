@@ -50,16 +50,25 @@ def landing_page():
     #with open("assets/style.css") as f:
         #st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
-    # Header avec gradient
-    _load_css()
-    src = _img_data_uri("assets/logo_1.png") 
-    st.markdown(f"""
-        <div class='landing-header'>
-            <img src="{src}" alt="DocChat Logo"/>
-            <p style='text-align: center;'>Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents</p>
-        </div>
-        """, 
-        unsafe_allow_html=True)
+    # 1) Charger le CSS global
+    _load_css("assets/style.css")
+
+    # 2) Préparer le logo (data URI = aucun souci de chemin)
+    logo_src = _img_data_uri("assets/logo_1.png")  # ou "assets/logo.png"
+
+    # 3) Header hero
+    st.markdown(
+        f"""
+        <section class="landing-header">
+          <img class="landing-logo" src="{logo_src}" alt="DocChat Logo" />
+          <h1 class="landing-title">DocChat</h1>
+          <p class="landing-tagline">
+            Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents
+          </p>
+        </section>
+        """,
+        unsafe_allow_html=True
+    )
     
     # Boutons d'authentification
     col1, col2, col3 = st.columns(3)
