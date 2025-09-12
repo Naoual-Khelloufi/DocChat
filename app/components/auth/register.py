@@ -37,20 +37,17 @@ def show_register() -> bool:
     logo_src = _img_data_uri("assets/logo_1.png")  # garde ton fichier actuel
     st.markdown(
         f"""
-        <div class="register-page">
-            <div class="register-card">
-                <img class="register-logo" src="{logo_src}" alt="DocChat Logo" />
-                <h2 class="register-title">Inscription</h2>
-            </div>
+        <div class="login-logo">
+            <img src="{logo_src}" alt="DocChat Logo"/>
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
     # --- Contenu principal ---
     with st.container():
         st.markdown("<div class='register-container'>", unsafe_allow_html=True)
         # Titre stylisé
-        #st.markdown("<div class='register-title'><h1>Inscription</h1></div>", unsafe_allow_html=True)
+        st.markdown("<div class='register-title'><h1>Inscription</h1></div>", unsafe_allow_html=True)
         # --- Formulaire avec placeholders ---
         with st.form("register_form"):
             username = st.text_input(" ", placeholder="Nom d'utilisateur*", key="reg_user")

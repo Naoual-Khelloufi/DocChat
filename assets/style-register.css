@@ -1,6 +1,27 @@
 /* assets/style-register.css
    Style autonome pour la page "Inscription" identique à "Connexion"
 */
+.login-logo {
+  display: flex;
+  justify-content: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.login-logo img {
+  height: 100px;
+  width: auto;    /* (corrigé: width, pas widht) */
+  display: block;
+}
+/* Titre violet en dégradé (reste pareil mais on force bien le centrage) */
+.register-title{
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;       /* centré horizontalement */
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #8e44ad, #9b59b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 /* Bandeau haut centré (logo + titre) */
 .register-page{
   display:flex;
@@ -8,16 +29,6 @@
   margin-top: 40px;
 }
 
-/* Titre violet en dégradé (reste pareil mais on force bien le centrage) */
-.register-title{
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;       /* centré horizontalement */
-  margin-bottom: 30px;
-  background: linear-gradient(to right, #8e44ad, #9b59b6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 .register-card{
   display:flex;
@@ -25,12 +36,6 @@
   align-items:center;
   gap:12px;
   margin-bottom: 10px;
-}
-
-.register-logo{
-  max-height: 80px;
-  width:auto;
-  display:block;
 }
 
 
