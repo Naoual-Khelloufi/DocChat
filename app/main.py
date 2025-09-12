@@ -127,7 +127,7 @@ def main():
     init_session_state()
     st.set_page_config(
     page_title="DocChat",
-    page_icon="/home/naoual/nlp_rag_system/assets/786407efd5324c8f96e4c12990da6644-free.ico",
+    page_icon="/home/naoual/nlp_rag_system/assets/logo.ico",
     layout="wide"
     )
     #st.set_page_config(page_title="DocChat", layout="wide")
