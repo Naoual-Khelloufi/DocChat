@@ -15,11 +15,11 @@
 /* === HERO / HEADER (landing) === */
 .landing-header{
   /* gradient indigo → cyan, moderne et contrasté */
-  background: linear-gradient(135deg, #807db9, #b3a6c2);
+  background: linear-gradient(135deg, #b0adf7, #c3c0f0);
   color: #ffffff;
   padding: 3.5rem 2rem;
   border-radius: 16px;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
