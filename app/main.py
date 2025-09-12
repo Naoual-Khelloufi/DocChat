@@ -155,7 +155,6 @@ def main():
         landing_page()
 
     elif st.session_state.current_screen == "auth_choice":
-        st.image("assets/logo.png", width=200)
         st.title("DocChat")
         show_auth_choice()
         
@@ -175,7 +174,6 @@ def main():
             navigate("main_app")
 
     elif st.session_state.current_screen == "login":
-        st.image("assets/logo.png", width=200)
         st.title("DocChat")
         if show_login():  # Retourne True si connexion réussie
             st.session_state.current_screen = "main_app"
@@ -183,13 +181,13 @@ def main():
             st.rerun()
 
     elif st.session_state.current_screen == "register":
-        st.title("RagChat")
+        st.title("DocChat")
         if show_register():  # Retourne True si inscription réussie
             st.session_state.current_screen = "login"  # Redirige vers le login
             st.rerun()
 
     elif st.session_state.current_screen == "reset_password":
-        st.title("RagChat")
+        st.title("DocChat")
         show_reset_password()
     
     elif st.session_state.current_screen == "reset_password_confirm":

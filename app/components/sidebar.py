@@ -124,56 +124,28 @@ def show_sidebar():
         # Récupère l'objet user ou {} par défaut
         user = st.session_state.get("user", {})
 
-        # Normalise : si la clé id n'existe pas, force-la à None
+        # Normalize : if the id don't exist, make it None
         if "id" not in user:
             user["id"] = None
             st.session_state["user"] = user  # on ré-injecte la version propre
 
-        # Crée user_id dans la session si manquant
+        # create user_id in the session if needed
         if "user_id" not in st.session_state:
             st.session_state["user_id"] = user["id"]
-        #if "user_id" not in st.session_state and "user" in st.session_state:
-        #    st.session_state["user_id"] = st.session_state["user"]["id"]
 
-        #user = st.session_state.get("user", {})
-        #if "user_id" not in st.session_state:
-        #    st.session_state["user_id"] = user.get("id")     #guest
-
-
-        #user_id = st.session_state.get("user_id")      # None pour guest
-
-        # ───────── Section Admin (visible seulement pour role=admin) ─────────
+        # ───────── Section Admin (only visible role=admin) ─────────
         if st.session_state.user["role"] == "admin":
             st.markdown("---")
             if st.button("🔧 Admin Dashboard"):
                 navigate("admin_dashboard")
-                #st.session_state.current_screen = "admin_dashboard"
-
-
+            
         _show_library()
         _show_history_dates()
 
-        #  bouton Déconnexion
+        #  Deconnect button
         if user.get("role") != "guest" and st.session_state.get("user_id"):
             if st.button("Se déconnecter", key="logout_btn"):
                 _logout()  
-        #if st.button(" Se déconnecter", key="logout_btn"):
-            #_logout()
-
-        # On rend le bouton seulement si user_id existe
-        #if user_id is not None and st.button("Afficher mon historique"):
-            #db = database.SessionLocal()
-            #history = crud.get_user_history(db, user_id, limit=10)
-
-            #if not history:
-            #    st.warning("Aucun historique trouvé.")
-            #else:
-            #    for h in history:
-            #        st.markdown(f"**🕑 {h.timestamp.strftime('%d/%m %H:%M')}**")
-            #        st.markdown(f"**❓ Q :** {h.question}")
-            #        st.markdown(f"**💬 R :** {h.answer[:100]}...")
-            #        st.markdown('-----')
-
     return temp_dir
 
 def _show_library():
