@@ -2,8 +2,34 @@ import streamlit as st
 from core.auth import crud, database
 from collections import defaultdict
 from utils.nav import navigate
+import base64
+import mimetypes
+from pathlib import Path
+
+def _load_css(path: str = "assets/style-login.css"):
+    p = Path(path)
+    if p.exists():
+        st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
+def _img_data_uri(path: str) -> str:
+    mime, _ = mimetypes.guess_type(path)
+    if not mime:
+        mime = "image/png"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
 
 def render():
+    _load_css()
+    src = _img_data_uri("assets/logo_1.png")  
+    st.markdown(
+        f"""
+        <div class="login-logo">
+            <img src="{src}" alt="DocChat Logo"/>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     user = st.session_state.user
     st.header("👤 Mon profil")
 
