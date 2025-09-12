@@ -174,7 +174,6 @@ def main():
             navigate("main_app")
 
     elif st.session_state.current_screen == "login":
-        st.title("DocChat")
         if show_login():  # Retourne True si connexion réussie
             st.session_state.current_screen = "main_app"
             st.query_params.from_dict({"screen": "main_app"})  #  MAJ URL
