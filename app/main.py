@@ -155,22 +155,15 @@ def main():
         landing_page()
 
     elif st.session_state.current_screen == "auth_choice":
-        st.title("DocChat")
         show_auth_choice()
         
         # Gestion des actions après choix
         if st.session_state.get("auth_action") == "login":
-            #st.session_state.current_screen = "login"
-            #st.rerun()
             navigate("login")  
         elif st.session_state.get("auth_action") == "register":
-            #st.session_state.current_screen = "register"
-            #st.rerun()
             navigate("register")
         elif st.session_state.get("auth_action") == "guest":
             st.session_state.user = {"id": None,"username": "invité", "role": "guest"}
-            #st.session_state.current_screen = "main_app"
-            #st.rerun()
             navigate("main_app")
 
     elif st.session_state.current_screen == "login":
@@ -185,11 +178,9 @@ def main():
             st.rerun()
 
     elif st.session_state.current_screen == "reset_password":
-        st.title("DocChat")
         show_reset_password()
     
     elif st.session_state.current_screen == "reset_password_confirm":
-        st.title("RagChat")
         show_reset_password_confirm()
 
     ############
