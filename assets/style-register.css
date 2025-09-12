@@ -1,6 +1,28 @@
 /* assets/style-register.css
    Style autonome pour la page "Inscription" identique à "Connexion"
 */
+/* Bandeau haut centré */
+.register-page{
+  display:flex;
+  justify-content:center;
+  margin-top: 40px;
+}
+
+/* Pile logo + titre */
+.register-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  margin-bottom: 10px;
+}
+
+/* Logo */
+.register-logo{
+  max-height: 80px;
+  width:auto;
+  display:block;
+}
 
 /* Titre violet en dégradé */
 .register-title{

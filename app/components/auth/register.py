@@ -2,6 +2,13 @@ import streamlit as st
 import sqlite3
 from core.auth.database import get_db
 from core.auth.models    import User
+from pathlib import Path
+
+def _load_css(path: str = "assets/style-register.css"):
+        p = Path(path)
+        if p.exists():
+            st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
 
 def show_register() -> bool:
     """
@@ -14,20 +21,29 @@ def show_register() -> bool:
     ok = False  # Valeur de retour
 
     # --- Style intégré ---
-    with open("assets/style-register.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
+    #with open("assets/style-register.css") as f:
+        #st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    _load_css()
+    st.markdown(
+        """
+        <div class="register-page">
+          <div class="register-card">
+            <img class="register-logo" src="assets/logo_1.png" alt="DocChat Logo" />
+            <h2 class="register-title">Inscription</h2>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     # --- Contenu principal ---
     with st.container():
         st.markdown("<div class='register-container'>", unsafe_allow_html=True)
-        
         # Titre stylisé
-        st.markdown("<div class='register-title'><h1>Inscription</h1></div>", unsafe_allow_html=True)
-
+        #st.markdown("<div class='register-title'><h1>Inscription</h1></div>", unsafe_allow_html=True)
         # --- Formulaire avec placeholders ---
         with st.form("register_form"):
             username = st.text_input(" ", placeholder="Nom d'utilisateur*", key="reg_user")
-            email = st.text_input(" ", placeholder="Email (optionnel)", key="reg_email")
+            email = st.text_input(" ", placeholder="Email*", key="reg_email")
             password = st.text_input(" ", placeholder="Mot de passe*", type="password", key="reg_pass")
             confirm = st.text_input(" ", placeholder="Confirmer le mot de passe*", type="password", key="reg_conf")
 
