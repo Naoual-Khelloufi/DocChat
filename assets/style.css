@@ -13,24 +13,27 @@
     text-align: center;
 }*/
 /* === HERO / HEADER (landing) === */
-.landing-header{
-  /* gradient indigo → cyan, moderne et contrasté */
-  background: linear-gradient(135deg, #b0adf7, #c3c0f0);
-  color: #34356b;
-  padding: 10px 15px 20px 25px;
-  border-radius: 16px;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
+.landing-header {
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    color: #ffffff;
+    padding: 3.5rem 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
   
-/* Logo */
-.landing-logo{
-  max-height: 300px;
-  width: auto;
-  display: inline-block;
-  margin-bottom: 0.15rem;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,.18));
+    /* Centrage vertical + horizontal */
+    display: flex;
+    flex-direction: column;   /* empile logo + titre + tagline */
+    align-items: center;      /* centre horizontalement */
+    justify-content: center;  /* centre verticalement */
+    min-height: 280px;        /* donne une hauteur fixe pour centrer le contenu */
+    text-align: center;
+  
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+.landing-logo {
+    max-height: 110px;
+    margin-bottom: 1rem;
 }
   
   
