@@ -3,11 +3,21 @@ import sqlite3
 from core.auth.database import get_db
 from core.auth.models    import User
 from pathlib import Path
+import base64
+import mimetypes
 
 def _load_css(path: str = "assets/style-register.css"):
         p = Path(path)
         if p.exists():
             st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+# helper to add for _load_css
+def _img_data_uri(path: str) -> str:
+    mime, _ = mimetypes.guess_type(path)
+    if not mime:
+        mime = "image/png"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
 
 
 def show_register() -> bool:
@@ -24,13 +34,14 @@ def show_register() -> bool:
     #with open("assets/style-register.css") as f:
         #st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     _load_css()
+    logo_src = _img_data_uri("assets/logo_1.png")  # garde ton fichier actuel
     st.markdown(
-        """
+        f"""
         <div class="register-page">
-          <div class="register-card">
-            <img class="register-logo" src="assets/logo_1.png" alt="DocChat Logo" />
-            <h2 class="register-title">Inscription</h2>
-          </div>
+            <div class="register-card">
+                <img class="register-logo" src="{logo_src}" alt="DocChat Logo" />
+                <h2 class="register-title">Inscription</h2>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,

@@ -1,14 +1,13 @@
 /* assets/style-register.css
    Style autonome pour la page "Inscription" identique à "Connexion"
 */
-/* Bandeau haut centré */
+/* Bandeau haut centré (logo + titre) */
 .register-page{
   display:flex;
   justify-content:center;
   margin-top: 40px;
 }
 
-/* Pile logo + titre */
 .register-card{
   display:flex;
   flex-direction:column;
@@ -17,12 +16,37 @@
   margin-bottom: 10px;
 }
 
-/* Logo */
 .register-logo{
   max-height: 80px;
   width:auto;
   display:block;
 }
+
+/* Titre violet en dégradé */
+.register-title{
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #8e44ad, #9b59b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Même largeur et centrage que Connexion */
+section.main > div.block-container{
+  max-width: 520px;
+}
+
+/* Carte autour du formulaire */
+form[data-testid="stForm"]{
+  background: #fff;
+  border: 1px solid #e7eaf3;
+  border-radius: 8px;
+  padding: 16px 18px 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.04);
+}
+
 
 /* Titre violet en dégradé */
 .register-title{
