@@ -155,7 +155,8 @@ def main():
         landing_page()
 
     elif st.session_state.current_screen == "auth_choice":
-        st.title("RagChat")
+        st.image("assets/logo.png", width=200)
+        st.title("DocChat")
         show_auth_choice()
         
         # Gestion des actions après choix
