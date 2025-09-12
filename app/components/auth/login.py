@@ -14,7 +14,7 @@ def show_login() -> bool:
     st.markdown(
         """
         <div class="login-logo">
-          <img src="/home/naoual/nlp_rag_system/assets/logo_1.ico" alt="DocChat Logo">
+          <img src="assets/logo_1.ico" alt="DocChat Logo">
         </div>
         """,
         unsafe_allow_html=True
