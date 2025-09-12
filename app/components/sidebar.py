@@ -101,7 +101,7 @@ def show_sidebar():
 
         uploaded_files = st.file_uploader(
             "Téléversez vos documents",
-            type=['pdf', 'txt', 'docx', 'csv', 'PPT', 'PPTX', 'PNG', 'JPG', 'JPEG'],
+            type=['pdf', 'txt', 'docx', 'csv'],
             accept_multiple_files=True
         )
         
@@ -113,7 +113,7 @@ def show_sidebar():
         
         st.selectbox(
             "Modèle Ollama",
-            ["llama3.2:latest","llama2:7b", "mistral", "gemma"],
+            ["llama3.2:latest","llama2:7b"],
             key="selected_model"
         )
         
@@ -186,15 +186,6 @@ def _show_history_dates():
 # -----------------------------------------------------------------------
 def _logout():
     """Nettoie les infos d’auth et réinitialise la session."""
-    # 1) retirer les clés sensibles
     for k in ("user", "user_id", "auth_action"):
         st.session_state.pop(k, None)
-
-    # 2) remettre l’écran sur la page d’accueil / choix
-    #st.session_state.current_screen = "landing"   # ou "auth_choice"
-
-    # 3) (optionnel) vider d’autres états si tu veux
-    #st.session_state.pop("current_doc_id", None)
-    #st.session_state.pop("chat_mode", None)
-    # ne vide pas vector_db si tu préfères le garder en cache !
     navigate("landing")

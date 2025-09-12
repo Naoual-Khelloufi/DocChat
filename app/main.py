@@ -62,7 +62,7 @@ def landing_page():
         <section class="landing-header">
           <img class="landing-logo" src="{logo_src}" alt="DocChat Logo" />
           <p class="landing-tagline">
-            Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents
+            Quand vos documents prennent la parole.
           </p>
         </section>
         """,
@@ -122,9 +122,31 @@ def landing_page():
             <p>Retrouvez toutes vos interactions</p>
         </div>
         """, unsafe_allow_html=True)
+def _load_css(path: str = "assets/logo_style.css"):
+    p = Path(path)
+    if p.exists():
+        st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
+def _img_data_uri(path: str) -> str:
+    mime, _ = mimetypes.guess_type(path)
+    if not mime:
+        mime = "image/png"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
 
 def main_interface():
-    st.title("RagChat")
+    _load_css()
+    src = _img_data_uri("assets/logo_1.png")  
+    st.markdown(
+        f"""
+        <div class="login-logo">
+            <img src="{src}" alt="DocChat Logo"/>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     temp_dir = show_sidebar()
 
     # mode normal ou historique
