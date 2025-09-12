@@ -22,21 +22,16 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* Bandeau haut centré (logo + titre) */
-.register-page{
-  display:flex;
-  justify-content:center;   /* avant: left → maintenant centré */
-  margin-top: 40px;
-}
 
 
-.register-card{
+
+/*.register-card{
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:12px;
   margin-bottom: 10px;
-}
+}/
 
 
 /* Même largeur et centrage que Connexion */
