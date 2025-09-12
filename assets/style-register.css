@@ -44,19 +44,19 @@ form[data-testid="stForm"]{
 div[data-testid="stTextInput"] input{
   width: 100%;
   padding: 8px;/*  */
-  border-radius: 8px;
+  border-radius: 4px;
   border: 2px solid #6e8efb;     /* bleu pâle */
   background: #f1f3f7;
   outline: none;
   transition: box-shadow .2s, border-color .2s, background .2s;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
   
-div[data-testid="stTextInput"] input:focus{
+/*div[data-testid="stTextInput"] input:focus{
   border-color: #8e44ad;         /* violet au focus */
-  box-shadow: 0 0 0 3px rgba(142,68,173,.15);
+  /*box-shadow: 0 0 0 3px rgba(142,68,173,.15);
   background: #fff;
-}
+}*/
   
 /* Bouton principal (submit) */
 div[data-testid="stFormSubmitButton"] button{
