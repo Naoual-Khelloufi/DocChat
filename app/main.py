@@ -61,7 +61,6 @@ def landing_page():
         f"""
         <section class="landing-header">
           <img class="landing-logo" src="{logo_src}" alt="DocChat Logo" />
-          <h1 class="landing-title">DocChat</h1>
           <p class="landing-tagline">
             Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents
           </p>
