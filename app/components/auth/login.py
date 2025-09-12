@@ -3,20 +3,17 @@ import streamlit as st
 from core.auth.database import get_db
 from core.auth.models import User
 
-st.markdown(
-    """
-    <div class="login-logo">
-        <img src="/home/naoual/nlp_rag_system/assets/786407efd5324c8f96e4c12990da6644-free.ico" alt="DocChat Logo">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
 
 def _load_css(path: str = "assets/style-login.css"):
     p = Path(path)
     if p.exists():
-        st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+        st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", 
+        """
+    <div class="login-logo">
+        <img src="/home/naoual/nlp_rag_system/assets/786407efd5324c8f96e4c12990da6644-free.ico" alt="DocChat Logo">
+    </div>
+    """,
+    unsafe_allow_html=True)
 
 def show_login() -> bool:
     _load_css()
