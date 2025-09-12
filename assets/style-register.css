@@ -4,8 +4,19 @@
 /* Bandeau haut centré (logo + titre) */
 .register-page{
   display:flex;
-  justify-content:left;
+  justify-content:center;   /* avant: left → maintenant centré */
   margin-top: 40px;
+}
+
+/* Titre violet en dégradé (reste pareil mais on force bien le centrage) */
+.register-title{
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;       /* centré horizontalement */
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #8e44ad, #9b59b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .register-card{
@@ -22,16 +33,6 @@
   display:block;
 }
 
-/* Titre violet en dégradé */
-.register-title{
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 30px;
-  background: linear-gradient(to right, #8e44ad, #9b59b6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 /* Même largeur et centrage que Connexion */
 section.main > div.block-container{
