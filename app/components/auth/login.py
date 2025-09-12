@@ -2,19 +2,29 @@ from pathlib import Path
 import streamlit as st
 from core.auth.database import get_db
 from core.auth.models import User
-
+import base64
+import mimetypes
 
 def _load_css(path: str = "assets/style-login.css"):
     p = Path(path)
     if p.exists():
         st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
 
+def _img_data_uri(path: str) -> str:
+    mime, _ = mimetypes.guess_type(path)
+    if not mime:
+        mime = "image/png"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
+
 def show_login() -> bool:
     _load_css()
+    src = _img_data_uri("assets/logo_1.png")  
     st.markdown(
-        """
+        f"""
         <div class="login-logo">
-          <img src="assets/logo_1.png" alt="DocChat Logo">
+            <img src="{src}" alt="DocChat Logo"/>
         </div>
         """,
         unsafe_allow_html=True
