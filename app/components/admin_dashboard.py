@@ -8,6 +8,7 @@ from reporting.db import SessionLocal as RepSession, Event, init_db
 import base64
 import mimetypes
 from pathlib import Path
+from utils.nav import navigate
 
 # ------------------------------------------------------------------ #
 # Helpers
@@ -131,7 +132,8 @@ def render():
 
     # Bouton retour
     if st.button("⬅️ Retour"):
-        st.session_state.current_screen = "main_app"
+        navigate("main_app")
+        #st.session_state.current_screen = "main_app"
         
 
     db = database.SessionLocal()
