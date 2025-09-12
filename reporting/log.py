@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from .db import SessionLocal, Event
 
 def log_event(**kwargs):
-    """Écrit un événement simple (upload, feedback, error...)."""
+    """Écrit un événement simple (upload, error...)."""
     with SessionLocal() as s:
         s.add(Event(**kwargs))
         s.commit()
@@ -34,10 +34,10 @@ def track_event(event_type, user_id=None, session_id=None, **meta):
             session_id=session_id,
             status=status,
             latency_ms=latency_ms,
-            tokens_in=meta.get("tokens_in"),
-            tokens_out=meta.get("tokens_out"),
-            score=meta.get("score"),
-            feedback=meta.get("feedback"),
+            #tokens_in=meta.get("tokens_in"),
+            #tokens_out=meta.get("tokens_out"),
+            #score=meta.get("score"),
+            #feedback=meta.get("feedback"),
             prompt=(meta.get("prompt") or "")[:500],  # éviter PII trop longues
             response_summary=meta.get("response_summary"),
             payload=payload,

@@ -92,12 +92,12 @@ def _load_reporting_df(date_from, date_to, event_types=None, user_filter=""):
         "user_id": r.user_id,
         "status": r.status,
         "latency_ms": r.latency_ms,
-        "tokens_in": r.tokens_in,
-        "tokens_out": r.tokens_out,
-        "score": r.score,
-        "feedback": r.feedback,
+        #"tokens_in": r.tokens_in,
+        #"tokens_out": r.tokens_out,
+        #"score": r.score,
+        #"feedback": r.feedback,
         "filename": (r.payload or {}).get("filename"),
-        "doc_ids": (r.payload or {}).get("doc_ids"),
+        #"doc_ids": (r.payload or {}).get("doc_ids"),
         "doc_id": (r.payload or {}).get("doc_id"),
     } for r in rows]
     return pd.DataFrame(data)
