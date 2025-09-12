@@ -4,9 +4,11 @@
   margin-top: 30px;
   margin-bottom: 20px;
 }
+
 .login-logo img {
   height: 100px;
-  width: auto;
+  width: auto;    /* (corrigé: width, pas widht) */
+  display: block;
 }
 
 /* Titre avec dégradé violet */
