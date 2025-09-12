@@ -125,7 +125,7 @@ def main_interface():
 
 def main():
     init_session_state()
-    st.set_page_config(page_title="Ollama RAG", layout="wide")
+    st.set_page_config(page_title="DocChat", layout="wide")
     #########
     init_db()
     ########
