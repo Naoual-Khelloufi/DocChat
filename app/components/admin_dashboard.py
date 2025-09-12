@@ -169,8 +169,8 @@ def render():
     date_from = st.date_input("Du", today - timedelta(days=7), key="rep_from")
     date_to   = st.date_input("Au", today, key="rep_to")
     evt_types = st.multiselect("Types d'événements",
-                           ["query","upload","feedback","error"],
-                           default=["query","upload","feedback"], key="rep_types")
+                           ["query","upload","error"],
+                           default=["query","upload"], key="rep_types")
     user_filter = st.text_input("User ID (optionnel)", key="rep_user")
 
     df = _load_reporting_df(date_from, date_to, evt_types, user_filter)

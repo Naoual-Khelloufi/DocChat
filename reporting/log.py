@@ -4,6 +4,9 @@ from .db import SessionLocal, Event
 
 def log_event(**kwargs):
     """Écrit un événement simple (upload, error...)."""
+     # ⛔️ Ne rien enregistrer pour le feedback
+    if kwargs.get("event_type") == "feedback":
+        return
     with SessionLocal() as s:
         s.add(Event(**kwargs))
         s.commit()
@@ -14,6 +17,11 @@ def track_event(event_type, user_id=None, session_id=None, **meta):
     Entoure un bloc de code pour mesurer latence + statut.
     Utilise-le autour des appels RAG/LLM (event_type='query').
     """
+    # ⛔️ Ne rien logger pour le feedback
+    if event_type == "feedback":
+        yield
+        return
+
     t0 = time.perf_counter()
     status = "ok"
     err = None
@@ -37,7 +45,7 @@ def track_event(event_type, user_id=None, session_id=None, **meta):
             tokens_in=meta.get("tokens_in"),
             tokens_out=meta.get("tokens_out"),
             score=meta.get("score"),
-            feedback=meta.get("feedback"),
+            #feedback=meta.get("feedback"),
             prompt=(meta.get("prompt") or "")[:500],  # éviter PII trop longues
             response_summary=meta.get("response_summary"),
             payload=payload,
