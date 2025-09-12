@@ -180,7 +180,6 @@ def main():
             st.rerun()
 
     elif st.session_state.current_screen == "register":
-        st.title("DocChat")
         if show_register():  # Retourne True si inscription réussie
             st.session_state.current_screen = "login"  # Redirige vers le login
             st.rerun()
