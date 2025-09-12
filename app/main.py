@@ -12,6 +12,9 @@ from app.components.auth.reset_password_confirm import show_reset_password_confi
 from components.pdf_viewer import display_file_viewer, display_file_viewer_by_id
 from utils.nav import navigate
 from reporting.db import init_db
+import base64
+import mimetypes
+from pathlib import Path
 
 def init_session_state():
     # États existants
@@ -28,19 +31,35 @@ def init_session_state():
     if 'user' not in st.session_state:
         st.session_state.user = None
 
+def _load_css(path: str = "assets/style.css"):
+    p = Path(path)
+    if p.exists():
+        st.markdown(f"<style>{p.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
+def _img_data_uri(path: str) -> str:
+    mime, _ = mimetypes.guess_type(path)
+    if not mime:
+        mime = "image/png"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
+
 def landing_page():
     """Écran d'accueil amélioré"""
     # Injecter le CSS
-    with open("assets/style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    #with open("assets/style.css") as f:
+        #st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
     # Header avec gradient
-    st.markdown("""
-    <div class='landing-header'>
-        <h1 style='text-align: center; color: white;'>Chat RAG</h1>
-        <p style='text-align: center;'>Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents</p>
-    </div>
-    """, unsafe_allow_html=True)
+    _load_css()
+    src = _img_data_uri("assets/logo_1.png") 
+    st.markdown(f"""
+        <div class='landing-header'>
+            <img src="{src}" alt="DocChat Logo"/>
+            <p style='text-align: center;'>Bienvenue sur la plateforme intelligente de question-réponse basée sur vos documents</p>
+        </div>
+        """, 
+        unsafe_allow_html=True)
     
     # Boutons d'authentification
     col1, col2, col3 = st.columns(3)
