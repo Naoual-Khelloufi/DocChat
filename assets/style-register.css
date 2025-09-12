@@ -35,7 +35,7 @@ form[data-testid="stForm"]{
   background: #fff;
   border: 1px solid #e7eaf3;
   border-radius: 8px;
-  padding: 16px 18px 20px;
+  padding: 8px 10px 12px;
   box-shadow: 0 6px 16px rgba(0,0,0,.04);
 }
 
