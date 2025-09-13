@@ -2,16 +2,20 @@ import time
 from contextlib import contextmanager
 from .db import SessionLocal, Event
 
+FEEDBACK_ENABLED = False
 def log_event(**kwargs):
     """Écrit un événement simple (upload, error...)."""
      # ⛔️ Ne rien enregistrer pour le feedback
-    if kwargs.get("event_type") == "feedback":
+    if not FEEDBACK_ENABLED and kwargs.get("event_type") == "feedback":
         return
+    #if kwargs.get("event_type") == "feedback":
+    #    return
     with SessionLocal() as s:
         s.add(Event(**kwargs))
         s.commit()
 
 @contextmanager
+
 def track_event(event_type, user_id=None, session_id=None, **meta):
     """
     Entoure un bloc de code pour mesurer latence + statut.

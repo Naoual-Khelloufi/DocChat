@@ -72,6 +72,7 @@ def _user_detail(u):
             st.markdown(f"**💬 R :** {h.answer}")
             st.markdown("-----")
 
+FEEDBACK_ENABLED = False
 def _load_reporting_df(date_from, date_to, event_types=None, user_filter=""):
     init_db()
     from datetime import datetime as dt
@@ -95,7 +96,7 @@ def _load_reporting_df(date_from, date_to, event_types=None, user_filter=""):
         #"tokens_in": r.tokens_in,
         #"tokens_out": r.tokens_out,
         #"score": r.score,
-        "feedback": r.feedback,
+        #"feedback": r.feedback,
         "filename": (r.payload or {}).get("filename"),
         #"doc_ids": (r.payload or {}).get("doc_ids"),
         "doc_id": (r.payload or {}).get("doc_id"),
@@ -203,16 +204,16 @@ def render():
             else:          
                 st.bar_chart(topu)
 
-    with c3:
-        st.subheader("Feedback")
-        if df.empty:
-            st.info("Aucune donnée.")
-        else:
-            fb = df[df["feedback"].notna()].groupby("feedback").size().rename("count")
-            if fb.empty: 
-                st.info("Aucun feedback.")
-            else:        
-                st.bar_chart(fb)
+    #with c3:
+     #   st.subheader("Feedback")
+    #    if df.empty:
+    #        st.info("Aucune donnée.")
+    #    else:
+    #        fb = df[df["feedback"].notna()].groupby("feedback").size().rename("count")
+    #        if fb.empty: 
+    #            st.info("Aucun feedback.")
+    #        else:        
+     #           st.bar_chart(fb)
 
     st.subheader("Détails (export CSV)")
     if df.empty:
