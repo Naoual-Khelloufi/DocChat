@@ -10,22 +10,17 @@ import mimetypes
 from pathlib import Path
 from utils.nav import navigate
 
-# ------------------------------------------------------------------ #
-# Helpers
-# ------------------------------------------------------------------ #
+# ----- Helpers ---------------
 def _user_row(u):
     """Affiche une ligne utilisateur + boutons d'action."""
     col1, col2, col3 = st.columns([4, 1, 1])
-    badge = "🛡️ **Admin**" if u.is_admin else "👤 User"
-    # nom cliquable → détail
+    badge = " **Admin** " if u.is_admin else " User"
     if col1.button(f"**{u.username}** — {badge}", key=f"detail-{u.id}"):
         st.session_state.selected_user_id = u.id
-    # bouton suppression (protège les admins)
     if not u.is_admin:
-        if col2.button("❌ Supprimer", key=f"del-{u.id}"):
+        if col2.button(" Supprimer", key=f"del-{u.id}"):
             return "delete"
     return None
-
 
 def _user_detail(u):
     """Affiche la fiche détaillée d’un utilisateur sélectionné."""
@@ -37,23 +32,23 @@ def _user_detail(u):
     st.write(f"- **Créé le** : {u.created_at.strftime('%d/%m/%Y %H:%M') if hasattr(u,'created_at') else 'N/A'}")
     st.markdown("---")
 
-     # ─── 1. Récupérer tout l'historique ──────────────────────
+     # ---- Retrieve the full history -----
     db = database.SessionLocal()
-    history = crud.get_user_history(db, u.id)  # plus de limite
+    history = crud.get_user_history(db, u.id)
 
     if not history:
         st.info("Aucun historique trouvé.")
         return
 
-    # ─── 2. Grouper par date (AAAA-MM-JJ) ────────────────────
+    # ---- Grouped by date (AAAA-MM-JJ) ----
     grouped = defaultdict(list)
     for h in history:
         grouped[h.timestamp.strftime("%Y-%m-%d")].append(h)
 
-    # Trier les dates récentes d'abord
+    # Sort by date : newest first
     dates_sorted = sorted(grouped.keys(), reverse=True)
 
-    # ─── 3. Selectbox : aucune date pré-sélectionnée ───────────────────
+    # ----- Selectbox ----- 
     sel_key = f"selected_history_date_{u.id}"
     placeholder = "📅 Choisir une date"
     selected_date = st.selectbox(
@@ -63,7 +58,7 @@ def _user_detail(u):
         key=sel_key,
     )
 
-    # ─── 4. Afficher l’historique seulement si une vraie date est choisie ────────────
+    # ---- Display the history only if a valid date is selected -----
     if selected_date != placeholder:
         st.markdown(f"### 💬 Conversations du {selected_date}")
         for h in grouped[selected_date]:
@@ -102,10 +97,8 @@ def _load_reporting_df(date_from, date_to, event_types=None, user_filter=""):
         "doc_id": (r.payload or {}).get("doc_id"),
     } for r in rows]
     return pd.DataFrame(data)
+#----------------------
 
-# ------------------------------------------------------------------ #
-# Page principale
-# ------------------------------------------------------------------ #
 def _load_css(path: str = "assets/style-login.css"):
     p = Path(path)
     if p.exists():
@@ -131,21 +124,17 @@ def render():
     )
     st.title("🔧 Admin – Gestion des utilisateurs")
 
-    # Bouton retour
     if st.button("⬅️ Retour"):
         navigate("main_app")
-        #st.session_state.current_screen = "main_app"
-        
 
     db = database.SessionLocal()
 
-    # -------------------------------------- #
-    # 1) Formulaire pour créer un nouvel admin
-    # -------------------------------------- #
-    with st.expander("➕ Créer un nouveau compte admin"):
+    
+    # ---- Creat new admin ----
+    with st.expander(" Créer un nouveau compte admin"):
         with st.form("create_admin_form"):
             new_username = st.text_input("Nom d'utilisateur")
-            new_email = st.text_input("Email (optionnel)") # noqa: F841
+            new_email = st.text_input("Email") # noqa: F841
             new_password = st.text_input("Mot de passe", type="password")
             if st.form_submit_button("Créer"):
                 if not new_username or not new_password:
@@ -158,9 +147,9 @@ def render():
                         st.error(f"Erreur : {exc}")
 
     st.markdown("---")
-    st.header("📊 Reporting — Statistiques d’utilisation & interactions")
+    st.header(" Reporting — Statistiques d’utilisation & interactions")
 
-    # Guard admin (au cas où)
+    # -- Guard admin ---
     user = st.session_state.get("user")
     if not user or user.get("role") != "admin":
         st.error("Accès refusé : administrateur requis.")
@@ -203,18 +192,7 @@ def render():
                 st.info("Aucune requête.")
             else:          
                 st.bar_chart(topu)
-
-    #with c3:
-     #   st.subheader("Feedback")
-    #    if df.empty:
-    #        st.info("Aucune donnée.")
-    #    else:
-    #        fb = df[df["feedback"].notna()].groupby("feedback").size().rename("count")
-    #        if fb.empty: 
-    #            st.info("Aucun feedback.")
-    #        else:        
-     #           st.bar_chart(fb)
-
+                
     st.subheader("Détails (export CSV)")
     if df.empty:
         st.info("Rien à afficher.")
@@ -222,9 +200,6 @@ def render():
         st.dataframe(df.sort_values("created_at", ascending=False), use_container_width=True)
         st.download_button("Télécharger CSV", df.to_csv(index=False), "reporting.csv")
 
-    # -------------------------------------- #
-    # 2) Liste et actions sur les utilisateurs
-    # -------------------------------------- #
     users = crud.list_users(db)
     if "selected_user_id" not in st.session_state:
         st.session_state.selected_user_id = None
@@ -233,8 +208,5 @@ def render():
         action = _user_row(u)
         if action == "delete":
             crud.delete_user(db, u.id)
-            
-
-        # Affiche la fiche si selectionnée
         if st.session_state.selected_user_id == u.id:
             _user_detail(u)
