@@ -1,4 +1,3 @@
-# app/auth/reset_password_confirm.py
 import streamlit as st
 from pathlib import Path
 from core.auth.database import get_db
@@ -32,22 +31,22 @@ def show_reset_password_confirm():
     )
     st.markdown("<h1 class='login-title'>Définir un nouveau mot de passe</h1>", unsafe_allow_html=True)
 
-    # 1) Token depuis l'URL OU depuis la session
+    # Token from the URL or from the session
     raw_token = st.query_params.get("token") or st.session_state.get("reset_token")
 
-    # 2) Si token présent dans l'URL, on le stocke et on nettoie l'URL (enlève ?token=...)
+    # If a token is present in the URL, we store it and clean the URL
     if st.query_params.get("token"):
         st.session_state.reset_token = raw_token
-        st.query_params.from_dict({"screen": "reset_password_confirm"})  # enlève 'token'
+        st.query_params.from_dict({"screen": "reset_password_confirm"}) 
         st.rerun()
 
-    # ======= GARDE-FOU : pas de token -> on redirige automatiquement vers login =======
+    # Automatically redirect to login if the token do not exist
     if not raw_token:
         st.session_state.pop("reset_token", None)
         st.session_state.current_screen = "login"
         st.query_params.from_dict({"screen": "login"})
         st.rerun()
-        st.stop()  # on arrête le rendu de cette page
+        st.stop() 
 
     _, col, _ = st.columns([1, 2, 1])
     with col:
@@ -56,7 +55,7 @@ def show_reset_password_confirm():
             if st.button("← Retour à la connexion", key="back_to_login"):
                 st.session_state.pop("reset_token", None)
                 st.session_state.current_screen = "login"
-                st.query_params.from_dict({"screen": "login"})  # <<< MAJ URL aussi
+                st.query_params.from_dict({"screen": "login"})
                 st.rerun()
             return
 
@@ -89,7 +88,7 @@ def show_reset_password_confirm():
             st.success("Mot de passe modifié avec succès.")
             if st.button("Se connecter", key="back_login_after_success"):
                 st.session_state.current_screen = "login"
-                st.query_params.from_dict({"screen": "login"})  # <<< MAJ URL aussi
+                st.query_params.from_dict({"screen": "login"})
                 st.rerun()
 
 
