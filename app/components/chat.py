@@ -7,7 +7,7 @@ from reporting.log import track_event, log_event
 
 
 def chat_interface():
-    st.subheader("💬 Chat avec vos documents")
+    st.subheader(" Chat avec vos documents")
     
     # Display history
     for msg in st.session_state.get('chat_history', []):
