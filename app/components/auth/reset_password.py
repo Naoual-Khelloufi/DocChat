@@ -1,14 +1,13 @@
-# app/auth/reset_password.py
 import re
 import time
 import streamlit as st
 from pathlib import Path
 from core.auth.database import get_db
-from core.auth.service import request_password_reset  # doit exister côté backend
+from core.auth.service import request_password_reset 
 import base64
 import mimetypes
 
-# ----------- CSS -----------
+# ----Style-------
 def _load_css(path: str = "assets/style-login.css"):
     p = Path(path)
     if p.exists():
@@ -22,21 +21,21 @@ def _img_data_uri(path: str) -> str:
         b64 = base64.b64encode(f.read()).decode("ascii")
     return f"data:{mime};base64,{b64}"
 
-# ----------- Rate-limit simple (session) -----------
+
+# ---- Rate-limit simple (session)------
 def can_request(email: str) -> bool:
-    # validation rapide d'e-mail
+    # email validation
     if not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email or ""):
         return False
     key = f"rp_last_{email.lower()}"
     now = time.time()
     last = st.session_state.get(key)
-    # 900s = 15 minutes
     if last and (now - last) < 900:
         return False
     st.session_state[key] = now
     return True
 
-# ----------- UI -----------
+
 def show_reset_password():
     _load_css()
     src = _img_data_uri("assets/logo_1.png")  
@@ -59,7 +58,7 @@ def show_reset_password():
             )
             submitted = st.form_submit_button("Envoyer le lien de réinitialisation")
 
-        # Retour à la connexion
+        # Back to connexion
         if st.button("← Retour à la connexion", key="back_to_login"):
             st.session_state.current_screen = "login"
             st.rerun()
@@ -72,7 +71,6 @@ def show_reset_password():
 
             db = get_db()
             try:
-                # Réponse neutre côté UI: ne révèle pas si l'email existe ou non
                 request_password_reset(db, email)
             finally:
                 db.close()
