@@ -5,6 +5,7 @@ from core.auth.models import User
 import base64
 import mimetypes
 
+#----Style-------
 def _load_css(path: str = "assets/style-login.css"):
     p = Path(path)
     if p.exists():
@@ -17,6 +18,7 @@ def _img_data_uri(path: str) -> str:
     with open(path, "rb") as f:
         b64 = base64.b64encode(f.read()).decode("ascii")
     return f"data:{mime};base64,{b64}"
+#---------------
 
 def show_login() -> bool:
     _load_css()
@@ -46,17 +48,17 @@ def show_login() -> bool:
                 )
                 submitted = st.form_submit_button("Se connecter")
 
-            # Liens bas de page
+            # Other options
             c1, c2 = st.columns(2)
             with c1:
                 if st.button("Mot de passe oublié ?", key="forgot_pass"):
                     st.session_state.current_screen = "reset_password"
-                    st.query_params.from_dict({"screen": "reset_password"})  # MAJ URL
+                    st.query_params.from_dict({"screen": "reset_password"})  
                     st.rerun()
             with c2:
                 if st.button("Créer un compte", key="create_account"):
                     st.session_state.current_screen = "register"
-                    st.query_params.from_dict({"screen": "register"})        # MAJ URL
+                    st.query_params.from_dict({"screen": "register"})       
                     st.rerun()
 
             if not submitted:
@@ -70,8 +72,6 @@ def show_login() -> bool:
                     "username": user.username,
                     "role": "admin" if getattr(user, "is_admin", False) else "user",
                 }
-                # ⚠️ Ne PAS faire st.rerun() ici
-                # ⚠️ Ne PAS changer current_screen ici
                 return True
             else:
                 st.error("Identifiants incorrects")

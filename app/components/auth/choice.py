@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_auth_choice():
-    """Affiche la carte de choix d'authentification"""
+    """Display the authentication choice card"""
     st.markdown("""
     <style>
         .auth-card {
