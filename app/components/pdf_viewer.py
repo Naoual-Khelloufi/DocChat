@@ -3,11 +3,10 @@ import base64
 import os
 import pandas as pd
 from docx import Document
-from PIL import Image
 from core.auth import database, models
 
 def display_file_viewer(temp_dir):
-    """Affiche un aperçu pour les fichiers PDF, DOCX, CSV, TXT, PPTX et images."""
+    """Display a preview for files PDF, DOCX, CSV, TXT"""
     if not st.session_state.get("uploaded_files"):
         return
     
@@ -67,31 +66,14 @@ def display_file_viewer(temp_dir):
                 unsafe_allow_html=True,
             )
 
-        # PPT/PPTX (affichage limité)
-        elif file_extension in [".ppt", ".pptx"]:
-            st.warning("⚠️ La visualisation des PowerPoint est limitée. Téléchargez le fichier pour le consulter.")
-            st.info(f"Fichier PowerPoint: {first_file.name}")
-            with open(file_path, "rb") as f:
-                st.download_button(
-                    label="📥 Télécharger le PowerPoint",
-                    data=f,
-                    file_name=first_file.name,
-                    mime="application/vnd.ms-powerpoint" if file_extension == ".ppt" else "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                )
-
-        # IMAGES (PNG, JPG, JPEG)
-        elif file_extension in [".png", ".jpg", ".jpeg"]:
-            image = Image.open(file_path)
-            st.image(image, caption=first_file.name, use_container_width=True)
-
         else:
-            st.warning("Format non supporté. (PDF, DOCX, CSV, TXT, PPT, PNG, JPG uniquement)")
+            st.warning("Format non supporté (PDF, DOCX, CSV, TXT uniquement).")
 
     except Exception as e:
         st.warning(f"Visualisation impossible : {str(e)}")
 
 def display_file_viewer_by_id(doc_id: int):
-    """Affiche un aperçu du fichier stocké en base de données via son id."""
+    """Display a preview of the file stored in the database via its id"""
     db = database.SessionLocal()
     doc = db.get(models.Document, doc_id)
     if not doc:
@@ -152,29 +134,12 @@ def display_file_viewer_by_id(doc_id: int):
                 unsafe_allow_html=True,
             )
 
-        # PPT/PPTX
-        elif file_extension in [".ppt", ".pptx"]:
-            st.warning("⚠️ La visualisation des PowerPoint est limitée. Téléchargez le fichier pour le consulter.")
-            st.info(f"Fichier PowerPoint: {os.path.basename(doc.path)}")
-            with open(doc.path, "rb") as f:
-                st.download_button(
-                    label="📥 Télécharger le PowerPoint",
-                    data=f,
-                    file_name=os.path.basename(doc.path),
-                    mime="application/vnd.ms-powerpoint" if file_extension == ".ppt" else "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                )
-
-        # IMAGES
-        elif file_extension in [".png", ".jpg", ".jpeg"]:
-            image = Image.open(doc.path)
-            st.image(image, caption=os.path.basename(doc.path), use_container_width=True)
-
         else:
-            st.warning("Format non supporté. (PDF, DOCX, CSV, TXT, PPT, PNG, JPG uniquement)")
+            st.warning("Format non supporté (PDF, DOCX, CSV, TXT uniquement).")
 
     except Exception as exc:
         st.warning(f"Visualisation impossible : {exc}")
 
-# Alias pour la compatibilité
+# Alias for compatibility
 display_pdf_viewer = display_file_viewer
 display_pdf_viewer_by_id = display_file_viewer_by_id
