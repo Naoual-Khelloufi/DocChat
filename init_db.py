@@ -1,9 +1,7 @@
-# init_db.py
-
 from core.auth.database import engine
 from core.auth.models import Base
 
-# Création des tables si elles n'existent pas
+# Create tables if they do not exist
 Base.metadata.create_all(bind=engine)
 
-print("✅ Base de données initialisée avec succès.")
+print("Base de données initialisée avec succès.")
