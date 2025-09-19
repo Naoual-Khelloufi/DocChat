@@ -20,7 +20,7 @@ class VectorStore:
         try:
             self.embeddings = OllamaEmbeddings(
                 model=embedding_model,
-                base_url="http://localhost:11434"  # Explicit local URL
+                base_url="http://localhost:11434"
             )
             self.vector_db = None
             logger.info(f"Initialized Ollama embeddings with model: {embedding_model}")
@@ -49,7 +49,7 @@ class VectorStore:
                 documents=documents,
                 embedding=self.embeddings,
                 collection_name=collection_name,
-                persist_directory=persist_dir  # Optional persistence
+                persist_directory=persist_dir  # optional persistence
             )
             return self.vector_db
             
