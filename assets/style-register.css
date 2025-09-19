@@ -1,70 +1,55 @@
-/* assets/style-register.css
-   Style autonome pour la page "Inscription" identique à "Connexion"
-*/
 .login-logo {
   display: flex;
   justify-content: left;
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 .login-logo img {
   height: 100px;
-  width: auto;    /* (corrigé: width, pas widht) */
+  width: auto;
   display: block;
 }
-/* Titre violet en dégradé (reste pareil mais on force bien le centrage) */
+
 .register-title{
   font-size: 28px;
   font-weight: bold;
-  text-align: center;       /* centré horizontalement */
+  text-align: center;
   margin-bottom: 30px;
   background: linear-gradient(to right, #8e44ad, #9b59b6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-
-
-/* Même largeur et centrage que Connexion */
 section.main > div.block-container{
   max-width: 220px;
 }
 
-/* Carte autour du formulaire */
 form[data-testid="stForm"]{
   background: #fff;
   border: 1px solid #e7eaf3;
   border-radius: 8px;
-  padding: 8px 10px 12px; /*  */
+  padding: 8px 10px 12px;
   box-shadow: 0 6px 16px rgba(0,0,0,.04);
 }
 
-  
-/* Champs de texte */
 div[data-testid="stTextInput"] input{
   width: 100%;
-  padding: 8px;/*  */
+  padding: 8px;
   border-radius: 4px;
-  border: 2px solid #6e8efb;     /* bleu pâle */
+  border: 2px solid #6e8efb;
   background: #f1f3f7;
   outline: none;
   transition: box-shadow .2s, border-color .2s, background .2s;
   margin-bottom: 10px;
 }
-  
-/*div[data-testid="stTextInput"] input:focus{
-  border-color: #8e44ad;         /* violet au focus */
-  /*box-shadow: 0 0 0 3px rgba(142,68,173,.15);
-  background: #fff;
-}*/
-  
-/* Bouton principal (submit) */
+
 div[data-testid="stFormSubmitButton"] button{
   width: 100%;
   padding: 14px 16px;
-  border-radius: 28px;            /* pilule */
+  border-radius: 28px;
   border: none;
-  background: #e74c3c;            /* rouge */
+  background: #e74c3c;
   color: #fff;
   font-weight: 600;
   transition: transform .05s ease, box-shadow .2s, background-color .2s;
@@ -79,8 +64,7 @@ div[data-testid="stFormSubmitButton"] button:hover{
 div[data-testid="stFormSubmitButton"] button:active{
   transform: translateY(1px);
 }
-  
-/* Petits boutons "lien" (optionnels) */
+
 div.stButton > button{
   background: transparent;
   border: 1px solid #8e44ad;
@@ -89,8 +73,7 @@ div.stButton > button{
   border-radius: 20px;
   font-weight: 600;
 }
-  
-/* Ligne de liens sous le formulaire (si tu en ajoutes) */
+
 .register-links{
   display: flex;
   justify-content: center;
