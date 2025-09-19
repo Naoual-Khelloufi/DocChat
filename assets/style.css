@@ -1,72 +1,52 @@
-/* === STYLE GÉNÉRAL === */
 .stApp {
     background-color: #f5f5f5;
 }
 
-/* === PAGE D'ACCUEIL (landing) === */
-/*.landing-header {
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
-    color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    text-align: center;
-}*/
-/* === HERO / HEADER (landing) === */
 .landing-header {
-    background: linear-gradient(135deg, #aface9, #c3bbcc);
-    color: #554ebb;
-    padding: 3.5rem 2rem;
-    border-radius: 16px;
-    margin-bottom: 2rem;
-  
-    /* Centrage vertical + horizontal */
-    display: flex;
-    flex-direction: column;   /* empile logo + titre + tagline */
-    align-items: center;      /* centre horizontalement */
-    justify-content: center;  /* centre verticalement */
-    min-height: 280px;        /* donne une hauteur fixe pour centrer le contenu */
-    text-align: center;
-  
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-  
-.landing-logo {
-    max-height: 110px;
-    margin-bottom: 1rem;
+  background: linear-gradient(135deg, #aface9, #c3bbcc);
+  color: #554ebb;
+  padding: 3.5rem 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px; 
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
   
-  
-/* Tagline */
+.landing-logo {
+  max-height: 110px;
+  margin-bottom: 1rem;
+}
+
 .landing-tagline{
   font-size: 1.1rem;
   font-weight: 500;
   opacity: .95;
   margin: 0;
 }
-  
-/* Responsive */
+
 @media (max-width: 640px){
   .landing-header{ padding: 2.2rem 1.2rem; }
   .landing-logo{ max-height: 88px; }
   .landing-title{ font-size: 1.7rem; }
   .landing-tagline{ font-size: 1rem; }
 }
-  
 
-/* Cartes de service */
 .service-card {
-    background: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-bottom: 1rem;
-    height: 100%;
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+  height: 100%;
 }
 
-/* Conteneur pour les services */
 .service-container {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 
