@@ -1,4 +1,4 @@
-"""RAG pipeline core functionality - simplified version."""
+"""RAG pipeline core functionality."""
 import logging
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -49,7 +49,7 @@ class RAGPipeline:
         """
         try:
             docs = self._retrieve_context(question)
-            if not docs:   # Fallback simple
+            if not docs:   # simple fallback
                 return self.llm_manager.generate_general(question, max_tokens=600)
 
             logger.info(f"Processing question: {question[:50]}...")
