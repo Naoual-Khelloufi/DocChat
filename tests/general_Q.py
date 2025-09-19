@@ -2,7 +2,7 @@ from core.llm import LLMManager
 from core.rag import RAGPipeline
 from core.embeddings import VectorStore
 
-vs = VectorStore()                  # pas d'index → comme si aucun upload
+vs = VectorStore()
 llm = LLMManager()
 pipe = RAGPipeline(vs, llm)
 
