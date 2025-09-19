@@ -31,18 +31,18 @@ def chat_interface():
                 prompt=prompt,
                 payload={"source": "chat_interface", "top_k": 3}
             ):
-                # 1) Context : if index present
+                # Context : if index present
                 context = []
                 if 'vector_db' in st.session_state and st.session_state.vector_db:
                     context = st.session_state.vector_db.similarity_search(prompt, k=3)
 
-                # 2) Answer : if context : RAG , else : general
+                # Answer : if context : RAG , else : general
                 if context:
                     response = llm.generate_answer(context, prompt)
                 else:
                     response = llm.generate_general(prompt, max_tokens=600)
 
-            # 3) Display + persistence
+            # Display + persistence
             with st.chat_message("assistant"):
                 st.markdown(response)
 
