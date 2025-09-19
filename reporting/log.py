@@ -3,13 +3,12 @@ from contextlib import contextmanager
 from .db import SessionLocal, Event
 
 FEEDBACK_ENABLED = False
+
 def log_event(**kwargs):
-    """Écrit un événement simple (upload, error...)."""
-     # ⛔️ Ne rien enregistrer pour le feedback
+    """Write a simple event (upload, error, etc.)"""
+    # we do not save anything for feedback
     if not FEEDBACK_ENABLED and kwargs.get("event_type") == "feedback":
         return
-    #if kwargs.get("event_type") == "feedback":
-    #    return
     with SessionLocal() as s:
         s.add(Event(**kwargs))
         s.commit()
@@ -18,10 +17,10 @@ def log_event(**kwargs):
 
 def track_event(event_type, user_id=None, session_id=None, **meta):
     """
-    Entoure un bloc de code pour mesurer latence + statut.
-    Utilise-le autour des appels RAG/LLM (event_type='query').
+    Wrap a code block to measure latency and status.
+    Use it around RAG/LLM calls (event_type='query').
     """
-    # ⛔️ Ne rien logger pour le feedback
+    # we do not save anything for feedback
     if event_type == "feedback":
         yield
         return
@@ -50,7 +49,7 @@ def track_event(event_type, user_id=None, session_id=None, **meta):
             tokens_out=meta.get("tokens_out"),
             score=meta.get("score"),
             #feedback=meta.get("feedback"),
-            prompt=(meta.get("prompt") or "")[:500],  # éviter PII trop longues
+            prompt=(meta.get("prompt") or "")[:500],  # avoid overly long PII
             response_summary=meta.get("response_summary"),
             payload=payload,
         )
