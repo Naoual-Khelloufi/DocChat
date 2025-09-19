@@ -1,7 +1,7 @@
 import streamlit as st
 
 def navigate(screen: str, **extra_params):
-    """Met à jour l'écran courant ET les query params, puis rerun."""
+    """Update the current screen and the query params, then rerun. """
     st.session_state.current_screen = screen
     qp = {"screen": screen}
     qp.update(extra_params)
