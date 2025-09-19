@@ -27,12 +27,12 @@ def _build_message(to_email: str, url: str) -> EmailMessage:
     msg["Reply-To"] = cfg.get("from", cfg["user"])
     msg.set_content(f"Bonjour,\n\nCliquez sur ce lien pour définir un nouveau mot de passe :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet email.\n")
     msg.add_alternative(f"""\
-<html><body style="font-family:Arial,sans-serif;">
-  <p>Bonjour,</p>
-  <p>Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :</p>
-  <p><a href="{url}" style="background:#e74c3c;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;">Définir un nouveau mot de passe</a></p>
-  <p>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
-</body></html>""", subtype="html")
+        <html><body style="font-family:Arial,sans-serif;">
+        <p>Bonjour,</p>
+        <p>Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :</p>
+        <p><a href="{url}" style="background:#e74c3c;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;">Définir un nouveau mot de passe</a></p>
+        <p>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
+        </body></html>""", subtype="html")
     return msg
 
 def send_reset_email(to_email: str, url: str) -> None:
