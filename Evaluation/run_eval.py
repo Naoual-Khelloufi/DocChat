@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 """
 Offline RAG Evaluation (STRICT prompt, no num_predict)
 - Builds an in-memory vector index from data/corpus_eval
@@ -31,15 +28,14 @@ CUR_DIR = Path(__file__).parent.resolve()
 ROOT_DIR = CUR_DIR.parent.resolve()
 sys.path.append(str(ROOT_DIR))
 
-# -----------------------
-#   Text splitting & index
-# -----------------------
+
+# ----- Text splitting & index -------
 def build_index_from_corpus(corpus_dir: Path) -> VectorStore:
     """
     Reads all text files from the corpus, splits them into chunks,
     and builds an in-memory vector index.
     """
-    # Prefer the new package; fallback for older LangChain versions
+    # Prefer the new package, fallback for older LangChain versions
     try:
         from langchain_text_splitters import RecursiveCharacterTextSplitter
     except Exception:
@@ -62,9 +58,7 @@ def build_index_from_corpus(corpus_dir: Path) -> VectorStore:
     vs.create_vector_db(documents=docs, collection_name="eval-run", persist_dir=None)
     return vs
 
-# -----------------------
-#   Metrics
-# -----------------------
+# ------ Metrics --------
 def _uniq_topk(sources: List[str], k: int) -> List[str]:
     """Return up to k distinct sources in original order."""
     seen, uniq = set(), []
@@ -128,9 +122,7 @@ def f1_score(pred: str, gold: str) -> float:
 def exact_match(pred: str, gold: str) -> int:
     return int(_normalize(pred) == _normalize(gold))
 
-# -----------------------
-#   Retrieval + strict generation
-# -----------------------
+# ------ Retrieval + strict generation --------
 def retrieve_topk(vs: VectorStore, question: str, k: int) -> Tuple[List[LCDocument], List[str]]:
     """
     Returns (documents, sources) ordered by similarity (top-k).
@@ -160,9 +152,7 @@ def generate_answer(llm: LLMManager, question: str, docs: List[LCDocument]) -> s
     resp = llm.llm.invoke(prompt)
     return (resp.content or "").strip()
 
-# -----------------------
-#   Evaluation loop
-# -----------------------
+# ------ Evaluation loop --------
 def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int):
     # Optional but recommended for determinism
     os.environ.setdefault("LLM_TEMPERATURE", "0")
@@ -181,7 +171,7 @@ def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int):
     agg = {"p": [], "r": [], "mrr": [], "f1": [], "em": []}
 
     for it in items:
-        rel = list(dict.fromkeys(it.get("relevant_sources", []) or []))  # dedupe
+        rel = list(dict.fromkeys(it.get("relevant_sources", []) or []))
         qid  = it["id"]
         q    = it["question"]
         gold = it["expected_answer"]
@@ -236,9 +226,7 @@ def run_eval(corpus_dir: Path, dataset_path: Path, out_csv: Path, k: int):
     out_json.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
 
-# -----------------------
-#   CLI
-# -----------------------
+# ------ CLI ------
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus",  type=str, default=str(ROOT_DIR / "data/corpus_eval"))
