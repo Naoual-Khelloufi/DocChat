@@ -11,7 +11,7 @@ Base = declarative_base()
 class Event(Base):
     __tablename__ = "events"
     id = Column(Integer, primary_key=True)
-    event_type = Column(String(50), index=True)         # 'query' | 'upload' | 'feedback' | 'error'
+    event_type = Column(String(50), index=True)         # query | upload | error
     user_id = Column(String(128), index=True, nullable=True)
     session_id = Column(String(128), index=True, nullable=True)
     status = Column(String(20), default="ok")
@@ -19,10 +19,10 @@ class Event(Base):
     tokens_in = Column(Integer, nullable=True)
     tokens_out = Column(Integer, nullable=True)
     score = Column(Float, nullable=True)
-    #mfeedback = Column(String(10), nullable=True)        # 'up' | 'down'
-    prompt = Column(Text, nullable=True)                # (sera tronqué côté logger)
+    #feedback = Column(String(10), nullable=True)        # up | down
+    prompt = Column(Text, nullable=True)                # will be truncated by the logger
     response_summary = Column(Text, nullable=True)
-    payload = Column(JSON, nullable=True)               # libre: {filename, doc_ids, ...}
+    payload = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
 
 def init_db():
