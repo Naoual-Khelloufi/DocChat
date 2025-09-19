@@ -6,6 +6,6 @@
   }
   .login-logo img {
     height: 100px;
-    width: auto;    /* (corrigé: width, pas widht) */
+    width: auto;  
     display: block;
   }
