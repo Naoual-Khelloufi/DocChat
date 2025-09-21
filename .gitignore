@@ -1,22 +1,33 @@
-# Python environment
+# Python
 venv/
 __pycache__/
 *.pyc
+*.egg-info/
 
-# SQLite
+# SQLite & dumps
 *.db
-*.sqlite
-*.sqlite3
-data/*.db
-data/docs/
-data/vectors/
+*.sqlite*
+reporting.db
+users_dump.sql
 
-# Temporary data files
-data/vectors/  # Exclude embeddings (can be regenerated)
+# Data directories
+/data/
+data/**
+
+# Reporting
+/reporting/
+reporting/**
+
+# Temp & caches
 data/.cache/
 
-
-# Sensitive files
+# Secrets
 .env
+.env.*
 *.secret
 .streamlit/secrets.toml
+
+# Editors/OS
+.vscode/
+.idea/
+.DS_Store
