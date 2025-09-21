@@ -3,10 +3,20 @@ venv/
 __pycache__/
 *.pyc
 
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+data/docs/
+data/vectors/
+
 # Temporary data files
 data/vectors/  # Exclude embeddings (can be regenerated)
 data/.cache/
 
+
 # Sensitive files
 .env
 *.secret
+.streamlit/secrets.toml

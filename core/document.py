@@ -1,4 +1,3 @@
-# Text extraction (PDF, TXT, etc.)
 """
 Document processing module with multi-format support.
 Handles PDF, TXT, DOCX, and CSV files with LangChain integration.
@@ -9,8 +8,8 @@ from typing import List
 from docx import Document
 import pandas as pd
 from langchain_community.document_loaders import (
-    UnstructuredPDFLoader,  # Robust PDF loader
-    UnstructuredFileLoader   # Universal text loader
+    UnstructuredPDFLoader,
+    UnstructuredFileLoader 
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document as LangchainDocument
@@ -69,10 +68,8 @@ class DocumentProcessor:
             logger.error(f"Document loading failed: {e}")
             raise
     
-    # --------------------------------------------------
-    # EXPLICIT LOADER IMPLEMENTATIONS
-    # --------------------------------------------------
-    
+
+    #Loaders
     def _load_pdf(self, file_path: Path) -> List:
         """
         PDF loader using UnstructuredPDFLoader

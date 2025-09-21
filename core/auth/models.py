@@ -1,8 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, String, DateTime
-#from sqlalchemy.ext.declarative import declarative_base
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-
 from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
@@ -20,7 +18,6 @@ class ChatHistory(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="chat_history")
-    # 🆕  document_id stocke le fichier utilisé (nullable)
     document_id = Column(Integer, ForeignKey("documents.id"), nullable=True)
 
 class Document(Base):
@@ -37,10 +34,9 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     password_hash = Column(String)
-    email = Column(String, nullable=True)
+    email = Column(String, nullable=True, unique=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-
-##############
+    
     #Add admin flag
     is_admin = Column(Boolean, default=False)
     
@@ -53,5 +49,18 @@ class User(Base):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-########
+
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+
+    id         = Column(Integer, primary_key=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), index=True, nullable=False)
+    token_hash = Column(String(64), unique=True, index=True, nullable=False)  # sha256 hex
+    expires_at = Column(DateTime, nullable=False)
+    used_at    = Column(DateTime, nullable=True)
+
+    user = relationship("User", backref="reset_tokens")
+
+
 __all__ = ["Base", "User"]

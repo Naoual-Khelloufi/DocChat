@@ -1,0 +1,11 @@
+.login-logo {
+    display: flex;
+    justify-content: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .login-logo img {
+    height: 100px;
+    width: auto;  
+    display: block;
+  }

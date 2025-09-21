@@ -1,0 +1,72 @@
+id,question,gold_answer,generated_answer,relevant_sources,retrieved_sources,precision@3,recall@3,mrr,f1,exact_match
+Q1-FR,Qu'est-ce que le réchauffement climatique et quelles en sont les principales causes ?,"Le réchauffement climatique est l'augmentation progressive de la température moyenne de la planète, principalement due aux activités humaines comme la combustion d’énergies fossiles, la déforestation, l’agriculture intensive et l’urbanisation.","Le réchauffement climatique est l'augmentation progressive de la température moyenne de la planète, principalement due aux activités humaines qui intensifient l'effet de serre. Les principales causes du réchauffement climatique sont :
+
+* La combustion des énergies fossiles (charbon, pétrole, gaz naturel) pour la production d'électricité, le transport et l'industrie.
+* La déforestation, qui réduit la capacité de la biosphère à absorber le CO₂ atmosphérique.
+* L'agriculture intensive, générant d'importantes émissions de méthane et de protoxyde d'azote.
+* L'urbanisation et la modification des sols, qui modifient les équilibres climatiques locaux et globaux.",article_climat_fr.txt,article_climat_fr.txt|article_climat_fr.txt|article_climat_fr.txt,1.0,3.0,1.0,0.5652173913043479,0
+Q2-FR,Citez deux conséquences déjà observables du réchauffement climatique.,"La fonte des glaciers et l’élévation du niveau des mers, ainsi que l’augmentation de la fréquence et de l’intensité des phénomènes météorologiques extrêmes comme les canicules et les tempêtes.","Deux conséquences déjà observables du réchauffement climatique sont :
+
+1. La fonte des glaciers et l'élévation du niveau des mers, menaçant les zones côtières et insulaires.
+2. Les perturbations météorologiques : augmentation de la fréquence et de l'intensité des phénomènes extrêmes (canicules, tempêtes, sécheresses, inondations).",article_climat_fr.txt,article_climat_fr.txt|article_climat_fr.txt|article_climat_fr.txt,1.0,3.0,1.0,0.6779661016949152,0
+Q1-EN,What is climate change and what are its main human causes?,"Climate change is the progressive increase in the Earth's average temperature, mainly due to human activities such as burning fossil fuels, deforestation, intensive agriculture, and land use changes.","Climate change refers to the progressive increase in the average temperature of the planet, mainly due to human activities that intensify the greenhouse effect. The main human causes of climate change are:
+
+1. Combustion of fossil fuels (coal, oil, natural gas) for electricity production, transportation, and industry.
+2. Deforestation, which reduces the biosphere's capacity to absorb atmospheric CO₂.
+3. Intensive agriculture, generating significant methane and nitrous oxide emissions.
+4. Urbanization and land use changes, which alter local and global climate balances.
+
+These human activities are primarily responsible for the increase in greenhouse gas (GHG) emissions, particularly carbon dioxide (CO₂), methane (CH₄), and nitrous oxide (N₂O).",article_climat_en.txt,article_climat_en.txt|article_climat_en.txt|article_climat_en.txt,1.0,3.0,1.0,0.44660194174757273,0
+Q2-EN,Give two observed consequences of climate change.,"Melting glaciers and rising sea levels, as well as more frequent and intense extreme weather events such as heatwaves and storms.","Two observed consequences of climate change are:
+
+1. Melting glaciers and rising sea levels, threatening coastal and island regions.
+2. Weather disruptions: increased frequency and intensity of extreme events (heatwaves, storms, droughts, floods).",article_climat_en.txt,article_climat_en.txt|article_climat_fr.txt|article_climat_en.txt,0.6666666666666666,2.0,1.0,0.46808510638297873,0
+Q3-FR,Qui est le créateur du langage Python et en quelle année a-t-il été développé ?,Python a été créé par Guido van Rossum en 1991.,Le créateur du langage Python est Guido van Rossum et il a été développé en 1991.,article_python_fr.txt,article_python_fr.txt|article_python_fr.txt|article_python_fr.txt,1.0,3.0,1.0,0.6153846153846154,0
+Q4-FR,Citez deux domaines d'application majeurs de Python.,"Python est largement utilisé dans le développement web (avec Django ou Flask) et dans l'analyse de données et l'intelligence artificielle (avec des bibliothèques comme NumPy, Pandas ou TensorFlow).","Deux domaines d'application majeurs de Python sont :
+
+1. Analyse de données et intelligence artificielle : grâce à des bibliothèques telles que NumPy, Pandas, scikit-learn, TensorFlow ou PyTorch.
+2. Développement web : via des frameworks comme Django ou Flask.",article_python_fr.txt,article_python_fr.txt|article_python_fr.txt|article_IA_fr.txt,0.6666666666666666,2.0,1.0,0.6,0
+Q3-EN,Who created the Python language and in what year?,Python was created by Guido van Rossum in 1991.,"According to the provided context, Guido van Rossum created the Python language in 1991.",article_python_en.txt,article_python_en.txt|article_python_fr.txt|article_python_en.txt,0.6666666666666666,2.0,1.0,0.6363636363636364,0
+Q4-EN,Give two major application areas of Python.,"Python is widely used in web development (via Django or Flask) and in data analysis and artificial intelligence (with libraries such as NumPy, Pandas, or TensorFlow).","Two major application areas of Python are:
+
+1. Data analysis and artificial intelligence: through libraries such as NumPy, Pandas, scikit-learn, TensorFlow, or PyTorch.
+
+2. Web development: via frameworks such as Django or Flask.",article_python_en.txt,article_python_en.txt|article_python_en.txt|article_python_en.txt,1.0,3.0,1.0,0.6666666666666667,0
+Q5-FR,Quand et lors de quel événement le terme 'intelligence artificielle' a-t-il été introduit ?,Le terme intelligence artificielle a été introduit en 1956 lors de la conférence de Dartmouth.,"Le terme ""intelligence artificielle"" a été introduit en 1956 lors de la conférence de Dartmouth.",article_IA_fr.txt,article_IA_fr.txt|article_IA_fr.txt|article_IA_fr.txt,1.0,3.0,1.0,1.0,1
+Q6-FR,Citez deux domaines d'application de l'intelligence artificielle.,"La santé (diagnostic, analyse d’images médicales) et les transports (véhicules autonomes, gestion du trafic) sont deux domaines d’application de l’IA.","Deux domaines d'application de l'intelligence artificielle sont :
+
+1. Santé : aide au diagnostic, analyse d’images médicales, conception de médicaments.
+2. Transport : véhicules autonomes, gestion intelligente du trafic.",article_IA_fr.txt,article_IA_fr.txt|article_IA_fr.txt|article_IA_fr.txt,1.0,3.0,1.0,0.6938775510204083,0
+Q5-EN,When and at which event was the term 'artificial intelligence' introduced?,The term artificial intelligence was introduced in 1956 at the Dartmouth Conference.,The term 'artificial intelligence' was introduced in 1956 at the Dartmouth Conference.,article_IA_en.txt,article_IA_en.txt|article_IA_en.txt|article_IA_en.txt,1.0,3.0,1.0,1.0,1
+Q6-EN,Name two application areas of artificial intelligence.,"Healthcare (diagnostic support, medical image analysis) and transportation (autonomous vehicles, intelligent traffic management) are two application areas of AI.","Two application areas of artificial intelligence are:
+
+1. Healthcare: diagnostic support, medical image analysis, drug design.
+
+2. Finance: fraud detection, market forecasting, portfolio management.",article_IA_en.txt,article_IA_en.txt|article_IA_en.txt|article_IA_en.txt,1.0,3.0,1.0,0.5581395348837209,0
+Q7-FR,Pourquoi le choix du dataset est-il crucial dans la performance d’un modèle d’apprentissage ?,"Parce qu’un modèle ne peut pas être plus performant que les données sur lesquelles il est entraîné. Le dataset doit être pertinent, de qualité, diversifié et équilibré pour garantir des prédictions fiables.","Le choix du dataset est crucial dans la performance d'un modèle d'apprentissage car il doit répondre à plusieurs critères :
+
+*   Pertinence : les données doivent être représentatives du problème à résoudre.
+*   Qualité : absence de bruit excessif, erreurs ou biais systématiques.
+*   Taille et diversité : un dataset trop restreint ou non diversifié limite la capacité de généralisation du modèle.
+*   Équilibre des classes : dans les problèmes de classification, un déséquilibre marqué entre classes peut induire un biais important dans les prédictions.
+
+Un dataset bien choisi et correctement prétraité permet d'améliorer la précision et la robustesse du modèle, de réduire les risques de surapprentissage ou de sous-apprentissage, et d'accroître la capacité de généralisation.",article_dataset_fr.txt,article_dataset_fr.txt|article_dataset_fr.txt|article_dataset_fr.txt,1.0,3.0,1.0,0.32692307692307687,0
+Q8-FR,Citez deux opérations essentielles du prétraitement des données.,"Le nettoyage des données (gestion des valeurs manquantes et aberrantes) et la transformation/normalisation (mise à l’échelle, encodage des variables).","Les deux opérations essentielles du prétraitement des données mentionnées dans le contexte sont :
+
+1. Nettoyage des données : traitement des valeurs manquantes, détection et gestion des valeurs aberrantes, correction des incohérences.
+2. Transformation et normalisation : mise à l’échelle des variables, encodage des variables catégorielles, transformations spécifiques.
+
+Ces deux opérations sont mentionnées comme étant essentielles au prétraitement des données dans le contexte fourni.",article_dataset_fr.txt,article_dataset_fr.txt|article_dataset_fr.txt|article_IA_fr.txt,0.6666666666666666,2.0,1.0,0.576271186440678,0
+Q7-EN,Why is dataset selection crucial for machine learning model performance?,"Because a model can only be as good as the data it is trained on. The dataset must be relevant, of high quality, diverse, and balanced to ensure reliable predictions.","According to the context, dataset selection is crucial for machine learning model performance because it must meet several criteria:
+
+1. Relevance: the data must be representative of the problem to be solved.
+2. Quality: absence of excessive noise, errors, or systematic biases.
+3. Size and diversity: a dataset that is too small or not diverse limits the model’s ability to generalize.
+4. Class balance: in classification problems, a strong imbalance between classes may induce significant bias in predictions.
+
+A well-chosen and properly preprocessed dataset improves accuracy, robustness, reduces risks of overfitting or underfitting, and increases generalization capacity, ultimately leading to reliable decision-making outcomes.",article_dataset_en.txt,article_dataset_en.txt|article_dataset_en.txt|article_dataset_en.txt,1.0,3.0,1.0,0.3035714285714286,0
+Q8-EN,Name two essential operations in data preprocessing.,"Data cleaning (handling missing values and outliers) and transformation/normalization (scaling variables, encoding categories).","Two essential operations in data preprocessing are:
+
+1. Data cleaning: handling missing values, detecting and managing outliers, correcting inconsistencies.
+
+2. Transformation and normalization: scaling variables, encoding categorical variables, applying specific transformations.",article_dataset_en.txt,article_dataset_en.txt|article_dataset_en.txt|article_dataset_en.txt,1.0,3.0,1.0,0.5853658536585366,0

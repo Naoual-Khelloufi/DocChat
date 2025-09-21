@@ -1,5 +1,4 @@
-# RAG pipeline (LangChain)
-"""RAG pipeline core functionality - simplified version."""
+"""RAG pipeline core functionality."""
 import logging
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -14,8 +13,8 @@ class RAGPipeline:
         Initialize with pre-configured components.
         
         Args:
-            vector_store: Your VectorStore instance from embeddings.py
-            llm_manager: Your LLMManager instance from llm.py
+            vector_store: our VectorStore instance from embeddings.py
+            llm_manager: our LLMManager instance from llm.py
         """
         self.vector_store = vector_store
         self.llm_manager = llm_manager
@@ -36,21 +35,26 @@ class RAGPipeline:
 
     def _retrieve_context(self, question: str):
         """Basic retrieval using your existing vector store."""
-        return self.vector_store.similarity_search(question, k=4)
+        try:
+            return self.vector_store.similarity_search(question, k=4)
+        except Exception:
+            # if the vectore database is not initiated
+            return []
 
     def get_response(self, question: str) -> str:
         """
         Get answer to user question.
-        
-        Args:
-            question: User query string
-            
-        Returns:
-            Generated answer
+        - if non doc is available/return -> general responce
+        - else -> RAG (chain exist)
         """
         try:
+            docs = self._retrieve_context(question)
+            if not docs:   # simple fallback
+                return self.llm_manager.generate_general(question, max_tokens=600)
+
             logger.info(f"Processing question: {question[:50]}...")
             return self.chain.invoke(question)
+
         except Exception as e:
             logger.error(f"Response generation failed: {e}")
             raise RuntimeError("Please check your input and try again")

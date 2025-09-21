@@ -1,10 +1,9 @@
-# Embeddings generation
 """Vector embeddings and database functionality for local Ollama setup."""
 import logging
 from typing import List
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_core.documents import Document as LangchainDocument  # Compatibilité avec document.py
+from langchain_core.documents import Document as LangchainDocument
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +20,7 @@ class VectorStore:
         try:
             self.embeddings = OllamaEmbeddings(
                 model=embedding_model,
-                base_url="http://localhost:11434"  # Explicit local URL
+                base_url="http://localhost:11434"
             )
             self.vector_db = None
             logger.info(f"Initialized Ollama embeddings with model: {embedding_model}")
@@ -31,7 +30,7 @@ class VectorStore:
 
     def create_vector_db(
         self, 
-        documents: List[LangchainDocument],  # Type matching document.py
+        documents: List[LangchainDocument],  
         collection_name: str = "local-rag",
         persist_dir: str = None
     ) -> Chroma:
@@ -50,7 +49,7 @@ class VectorStore:
                 documents=documents,
                 embedding=self.embeddings,
                 collection_name=collection_name,
-                persist_directory=persist_dir  # Optional persistence
+                persist_directory=persist_dir  # optional persistence
             )
             return self.vector_db
             
@@ -72,8 +71,8 @@ class VectorStore:
     def similarity_search(
         self,
         query: str,
-        k: int = 4
-    ) -> List[LangchainDocument]:  # Return type matches document.py
+        k: int = 3
+    ) -> List[LangchainDocument]:  
         """
         Perform similarity search against stored vectors.
         
@@ -88,3 +87,15 @@ class VectorStore:
             raise ValueError("Vector database not initialized")
             
         return self.vector_db.similarity_search(query, k=k)
+
+    
+
+    def is_empty(self) -> bool:
+        """Return True if the vector DB has no entries."""
+        if not self.vector_db:
+            return True
+        try:
+            data = self.vector_db.get()
+            return len(data.get("ids", [])) == 0
+        except Exception:
+            return True

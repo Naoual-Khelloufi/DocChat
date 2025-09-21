@@ -1,0 +1,46 @@
+.login-logo {
+  display: flex;
+  justify-content: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.login-logo img {
+  height: 100px;
+  width: auto;    
+  display: block;
+}
+
+.login-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(to right, #8e44ad, #9b59b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+}
+
+div[data-testid="stTextInput"] input{
+    width:100%; padding:12px; border-radius:8px;
+    border:2px solid #6e8efb; background:#f1f3f7; margin-bottom:20px;
+}
+
+div[data-testid="stFormSubmitButton"] button{
+  width:100%; background:#e74c3c; color:#fff; padding:12px; font-weight:700;
+  border:none; border-radius:9999px; cursor:pointer;
+}
+
+div.stButton > button{
+  background:transparent; border:1px solid #8e44ad; color:#8e44ad;
+  padding:8px 14px; border-radius:20px; font-weight:600;
+}
+
+h1.login-title{
+  font-size:28px; font-weight:800; text-align:center; margin:10px 0 30px;
+  background:linear-gradient(90deg,#8e44ad,#9b59b6);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+section.main > div.block-container{ max-width:520px; }
+  

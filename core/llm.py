@@ -20,9 +20,9 @@ class LLMManager:
         try:
             self.llm = ChatOllama(
                 model=model_name,
-                temperature=0.3,  # Balances creativity/factuality
-                base_url="http://localhost:11434",  # Matches embeddings.py
-                num_ctx=2048, # Consistent context window
+                temperature=0.3,  # balances creativity
+                base_url="http://localhost:11434",  
+                num_ctx=2048, # consistent context window
                 num_threads=2
             )
             logger.info(f"Initialized LLM with model: {model_name}")
@@ -32,7 +32,7 @@ class LLMManager:
 
     def generate_answer(
         self,
-        context: List[LangchainDocument],  # Type matches document.py/embeddings.py
+        context: List[LangchainDocument],  
         question: str,
         max_tokens: int = 1000
     ) -> str:
@@ -48,7 +48,7 @@ class LLMManager:
             Generated answer string
         """
         try:
-            # Format context from your document chunks
+            # Format context from document chunks
             context_text = "\n\n".join([doc.page_content for doc in context])
             
             response = self.llm.invoke(
@@ -98,3 +98,53 @@ class LLMManager:
         except Exception as e:
             logger.warning(f"Query expansion failed, using original: {e}")
             return [question]
+
+    # For general question generation
+    def _get_general_prompt(self) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_template(
+            """You are a helpful assistant.
+        Rules:
+            1) Answer clearly and concisely.
+            2) If the user explicitly requests a language (e.g., "réponds en anglais"), follow it.
+            3) If the question is ambiguous, ask one brief clarifying question before answering.
+
+        Question:
+        {question}
+
+        Answer:"""
+    )
+
+    def generate_general(self, question: str, max_tokens: int = 600) -> str:
+        try:
+            prompt = self._get_general_prompt().format(question=question)
+            # to limite length: self.llm.bind(num_predict=max_tokens)
+            resp = self.llm.invoke(prompt)
+            return (resp.content or "").strip()
+        except Exception as e:
+            logger.error(f"General answer failed: {e}")
+            raise
+
+    def _get_rag_prompt_eval(self) -> ChatPromptTemplate:
+        """
+        Prompt for evaluation (strict).
+        More constrained: short and closer to gold answers.
+        """
+        return ChatPromptTemplate.from_template(
+            """You are a RAG assistant. Strict rules:
+
+        1) Answer ONLY using the information provided in the context.
+        2) If the answer is not present, reply exactly: "Information not found" 
+            (or "Information non trouvée" in French).
+        3) Respond in the SAME language as the question, unless another language is explicitly requested.
+        4) Be concise: maximum 2 sentences.
+        5) If the answer is a short fact, definition or date, COPY the exact wording from the context whenever possible.
+        6) Do not add introductions or extra details outside the context.
+
+        Context:
+        {context}
+
+        Question:
+        {question}
+
+        Answer:"""
+    )
